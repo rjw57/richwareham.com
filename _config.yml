@@ -7,6 +7,10 @@ url: ""
 twitter_username: richwareham
 github_username:  rjw57
 
+# Ignore all the build crap
+exclude: ["node_modules", "*.yaml", "*.json", ".*",
+          "Gruntfile.js", "README.md", "ATTRIBUTION.md"]
+
 # Build settings
 markdown: kramdown
 permalink: pretty

@@ -10,8 +10,6 @@ module.exports = function(grunt) {
       },
       serve: {
         options: {
-          serve: true,
-          port: 9000,
           watch: true,
         }
       }
@@ -40,6 +38,21 @@ module.exports = function(grunt) {
       }
     },
 
+    appengine: {
+      options: {
+        manageFlags: {
+          oauth2: true
+        },
+        runFlags: {
+          port: 9000,
+          host: "0.0.0.0"
+        }
+      },
+      frontend: {
+        root: '.'
+      }
+    },
+
     concurrent: {
       options: {
         logConcurrentOutput: true,
@@ -48,9 +61,10 @@ module.exports = function(grunt) {
       target1: [
         'vulcanize',
         'jekyll:serve',
+        'appengine:run:frontend',
         'watch'
       ]
-    }
+    },
 
   });
 
