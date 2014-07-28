@@ -1,3 +1,5 @@
+// Run this script via node from the project root.
+
 var http = require('http'),
     fs = require('fs');
 
@@ -17,11 +19,28 @@ var processUrls = function(urls, cb) {
       var json_data = '';
       res.on('data', function(chunk) { json_data += chunk; });
       res.on('end', function() {
-        pubs = pubs.concat(eval(json_data));
-        console.log('Got ' + pubs.length + ' publication(s)');
+        // We use naked evals because the CUED database has some naked unescape-s in them :(
+        var parsed_pubs = eval(json_data);
+        console.log('Got ' + parsed_pubs.length + ' publication(s)');
+
+        // Do some post-processing
+        parsed_pubs.forEach(function(pub) {
+          // Parse date
+          pub.timestamp = Date.parse(pub.date);
+          pub.date = new Date(pub.timestamp).toISOString();
+
+          // Add to output
+          pubs.push(pub);
+        });
+
         if(idx+1 < PUB_URLS.length) {
           processEntry(idx+1);
         } else {
+          // Sort publications by descending date
+          pubs.sort(function(a,b) {
+            return b.timestamp - a.timestamp;
+          });
+
           if(cb) { cb(pubs); }
         }
       });
@@ -30,7 +49,6 @@ var processUrls = function(urls, cb) {
 
   processEntry(0);
 }
-// We use naked evals because the CUED database has some naked unescape-s in them :(
 
 processUrls(PUB_URLS, function(pubs) {
   fs.writeFile('publications.json', JSON.stringify(pubs), function() {

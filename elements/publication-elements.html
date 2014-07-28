@@ -1,0 +1,34 @@
+<link rel="import" href="../js/bower_components/polymer/polymer.html">
+
+<polymer-element name="publication-author" noscript attributes="given family">
+  <template>
+    {{ family }}, {{ given }}
+  </template>
+</polymer-element>
+
+<polymer-element name="publication-record" noscript block
+    attributes="publicationTitle articleTitle pagerange volume href issn year issue eventTitle eventLocation">
+  <template>
+    <style>
+      :host { padding: 8px; }
+      [title] { font-style: italic; }
+      [inpub] { text-transform: uppercase; }
+      ::content publication-author:not(:first-child)::before { content: 'and'; }
+    </style>
+    <content select="publication-author"></content>
+    <template if="{{ year }}">({{year}})</template>
+    <span title>{{ articleTitle }}.</span>
+    <template if="{{ publicationTitle }}">
+      <span inpub>{{ publicationTitle }}</span><template if="{{ volume }}"
+        >, ({{volume}})<template if="{{ issue }}">:{{issue}}</template></template
+        ><template if="{{ pagerange }}"> pp. {{pagerange}}</template>.
+    </template>
+    <template if="{{ eventTitle }}">
+      <span inevent>In: {{ eventTitle }}<template
+        if="{{ eventLocation }}">, {{eventLocation}}.</span>
+    </template>
+    <template if="{{ issn }}">ISSN {{ issn }}.</template>
+  </template>
+</polymer-element>
+
+

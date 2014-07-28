@@ -12,6 +12,9 @@ exclude: ["node_modules", "*.yaml", "*.json", ".*",
           "Gruntfile.js", "README.md", "ATTRIBUTION.md",
           "js/bower_components", "scripts"]
 
+# Explicitly include some files
+include: ["publications.json"]
+
 # Build settings
 markdown: kramdown
 permalink: pretty
