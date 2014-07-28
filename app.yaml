@@ -16,9 +16,9 @@ handlers:
   static_files: _site/index.html
   upload: _site/index\.html
 
-- url: /(about|cv)$
+- url: /(software|publications|research|teaching|contact|cv|about)$
   static_files: _site/\1/index.html
-  upload: _site/\1/index\.html
+  upload: _site/(.*)/index\.html
 
 # Misc URLs map directly to their path in _site/.
 - url: /
