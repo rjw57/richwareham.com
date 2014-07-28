@@ -1,0 +1,28 @@
+<link rel="import" href="../js/bower_components/polymer/polymer.html">
+
+<polymer-element name="page-pane" block vertical layout
+    attributes="pageTitle theme href">
+  <template>
+    <core-style ref="rw-theme"></core-style>
+
+    <a id="backLink" href="{{ href ? href : '/' }}" hidden></a>
+
+    <core-scroll-header-pane flex class="theme white bg fg">
+      <core-toolbar
+      class="theme {{ theme ? theme : 'grey' }} bg fg">
+        <paper-icon-button icon="arrow-back" on-tap="{{ back }}">
+        </paper-icon-button>
+        <div flex>{{ pageTitle }}</div>
+      </core-toolbar>
+
+      <content></content>
+    </core-scroll-header-pane>
+  </template>
+  <script>Polymer({
+    back: function() {
+      // FIXME: This is ugly in the extreme!
+      this.$.backLink.dispatchEvent(new CustomEvent('click'));
+    },
+  });</script>
+</polymer-element>
+

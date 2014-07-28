@@ -1,7 +1,7 @@
 <link rel="import" href="../js/bower_components/polymer/polymer.html">
 
 <polymer-element name="section-card" noscript block vertical layout
-    attributes="label icon theme mini href">
+    attributes="label icon theme featured href">
   <template>
     <core-style ref="rw-theme"></core-style>
 
@@ -13,11 +13,10 @@
     <core-media-query query="min-width: 660px" queryMatches="{{ wide }}">
     </core-media-query>
 
-    <a href="{{href}}" hidden?="{{!href}}" id="link"></a>
-    <div card flex class="theme {{ theme ? theme : 'grey' }} bg fg" vertical layout>
+    <div relative card flex class="theme {{ theme ? theme : 'grey' }} bg fg" vertical layout>
       <paper-shadow></paper-shadow>
-      <paper-ripple fit></paper-ripple>
-      <template if="{{mini === null}}">
+
+      <template if="{{featured !== null}}">
         <div flex vertical layout content>
           <div flex horizontal layout center-justified>
             <div self-center>
@@ -28,7 +27,7 @@
         </div>
       </template>
 
-      <template if="{{mini !== null}}">
+      <template if="{{featured === null}}">
         <div flex horizontal layout content>
           <template if="{{icon}}">
             <div self-center>
@@ -38,6 +37,10 @@
           <div flex self-center>{{ label }}</div>
         </div>
       </template>
+
+      <a fit overlay href="{{href}}" hidden?="{{!href}}" id="link">
+        <paper-ripple fit></paper-ripple>
+      </a>
     </div>
   </template>
 </polymer-element>

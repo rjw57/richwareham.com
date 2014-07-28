@@ -1,4 +1,4 @@
-application: richwareham-com
+application: dazzling-rain-655
 version: 2014-07-28
 runtime: python27
 api_version: 1
@@ -15,6 +15,10 @@ handlers:
 - url: /$
   static_files: _site/index.html
   upload: _site/index\.html
+
+- url: /(about|cv)$
+  static_files: _site/\1/index.html
+  upload: _site/\1/index\.html
 
 # Misc URLs map directly to their path in _site/.
 - url: /

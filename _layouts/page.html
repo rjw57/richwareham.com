@@ -1,14 +1,8 @@
 ---
 layout: default
 ---
-<div class="post">
-
-  <header class="post-header">
-    <h1>{{ page.title }}</h1>
-  </header>
-
-  <article class="post-content">
-  {{ content }}
+<page-pane flex theme="{{ page.theme }}" pageTitle="{{ page.title }}">
+  <article content>
+    {{ content }}
   </article>
-
-</div>
+</page-pane>
