@@ -1,6 +1,9 @@
 <polymer-element name="page-pane" block vertical layout noscript
     attributes="pageTitle theme href">
   <template>
+    <style>
+      ::content section { padding: 8px; }
+    </style>
     <core-style ref="rw-theme"></core-style>
 
     <core-scroll-header-pane flex>
