@@ -19,7 +19,7 @@
       <template if="{{featured !== null}}">
         <div flex vertical layout content>
           <div flex horizontal layout center-justified>
-            <div self-center>
+            <div vertical layout center-justified>
               <core-icon icon="{{ icon }}" size="{{ wide ? 128 : 64 }}"></core-icon>
             </div>
           </div>
@@ -30,11 +30,11 @@
       <template if="{{featured === null}}">
         <div flex horizontal layout content>
           <template if="{{icon}}">
-            <div self-center>
+            <div vertical layout center-justified>
               <core-icon icon="{{ icon }}" size="32"></core-icon>
             </div>
           </template>
-          <div flex self-center>{{ label }}</div>
+          <div flex vertical layout center-justified>{{ label }}</div>
         </div>
       </template>
 

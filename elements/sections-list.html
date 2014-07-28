@@ -5,13 +5,14 @@
     <core-style ref="rw-theme"></core-style>
 
     <style>
-      nav { width: 100%; margin: 4px; }
+      [nav-wrapper] { padding: 4px; }
+
+      nav { width: 100%; }
 
       section-card {
         width: calc(100% / 2);
         height: calc(64px * 3);
         float: left;
-        vertical-align: top;
       }
 
       section-card[mini] {
@@ -36,18 +37,18 @@
       @media (min-width: 1024px) {
         section-card { width: calc(100% / 3); }
         section-card[mini] { width: calc(100% / 3); }
-        section-card[micro] { width: calc(100% / 6); }
+        section-card[micro] { width: calc(100% / 3); }
       }
 
       @media (min-width: 1400px) {
         section-card { width: calc(100% / 4); }
         section-card[mini] { width: calc(100% / 4); }
-        section-card[micro] { width: calc(100% / 8); }
+        section-card[micro] { width: calc(100% / 4); }
         nav { width: 1400px; }
       }
     </style>
 
-    <div horizontal layout center-justified>
+    <div nav-wrapper horizontal layout center-justified>
       <nav>
         <section-card featured label="Software" icon="rw:software" theme="purple"
           href="/software"></section-card>

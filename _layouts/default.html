@@ -3,6 +3,7 @@
   {% include head.html %}
   <body fullbleed unresolved layout vertical
       class="theme {% if page.theme %}{{ page.theme }}{% else %} grey {% endif %} bg">
+    <core-style ref="rw-theme"></core-style>
     {{content}}
   </body>
 </html>
