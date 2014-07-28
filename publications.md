@@ -8,7 +8,17 @@ theme: indigo
 {% jsonball pubs from file publications.json %}
 
 <section class="theme white bg fg">
+  {% assign year = "" %}
   {% for pub in pubs %}
+
+  {% capture pubyear %}{{ pub.timestamp | divided_by: 1000 | date: '%Y' }}{% endcapture %}
+  {% if pubyear != year %}
+
+  <h1>{{ pubyear }}</h1>
+
+  {% endif %}
+  {% assign year = pubyear %}
+
   {% if pub.type == 'article' %}
     <publication-record articleTitle="{{ pub.title }}"
       publicationTitle="{{ pub.publication }}" pagerange="{{ pub.pagerange }}"
