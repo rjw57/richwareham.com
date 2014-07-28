@@ -4,6 +4,8 @@ layout: default
 
 <div class="home">
 
+  <p>Hello</p>
+
   <h1>Posts</h1>
 
   <ul class="posts">
