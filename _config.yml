@@ -9,7 +9,8 @@ github_username:  rjw57
 
 # Ignore all the build crap
 exclude: ["node_modules", "*.yaml", "*.json", ".*",
-          "Gruntfile.js", "README.md", "ATTRIBUTION.md"]
+          "Gruntfile.js", "README.md", "ATTRIBUTION.md",
+          "js/bower_components"]
 
 # Build settings
 markdown: kramdown
