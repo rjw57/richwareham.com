@@ -1,0 +1,67 @@
+<link rel="import" href="../js/bower_components/polymer/polymer.html">
+
+<polymer-element name="sections-list" noscript block>
+  <template>
+    <core-style ref="rw-theme"></core-style>
+
+    <style>
+      nav { width: 100%; margin: 4px; }
+
+      section-card {
+        width: calc(100% / 2);
+        height: calc(64px * 3);
+        float: left;
+        vertical-align: top;
+      }
+
+      section-card[mini] {
+        width: calc(100% / 1);
+        height: 64px;
+      }
+
+      @media (min-width: 660px) {
+        section-card {
+          width: calc(100% / 2);
+          height: calc(64px * 4);
+        }
+        section-card[mini] { width: calc(100% / 2); }
+      }
+
+      @media (min-width: 1024px) {
+        section-card { width: calc(100% / 3); }
+        section-card[mini] { width: calc(100% / 3); }
+      }
+
+      @media (min-width: 1400px) {
+        section-card { width: calc(100% / 4); }
+        section-card[mini] { width: calc(100% / 4); }
+        nav { width: 1400px; }
+      }
+    </style>
+
+    <div horizontal layout center-justified>
+      <nav>
+        <section-card label="Software" icon="rw:software" theme="purple"
+          href="software.html"></section-card>
+        <section-card label="Publications" icon="rw:publications" theme="indigo"
+          ></section-card>
+        <section-card label="Research" icon="rw:research" theme="green"
+          ></section-card>
+        <section-card label="Teaching" icon="rw:teaching" theme="cyan"
+          ></section-card>
+
+        <section-card mini icon="rw:github" theme="deeporange" label="Github"></section-card>
+        <section-card mini icon="google-plus" theme="deeporange" label="Google Plus"></section-card>
+        <section-card mini icon="rw:twitter" theme="deeporange" label="Twitter"></section-card>
+        <section-card mini icon="rw:facebook" theme="deeporange" label="Facebook"></section-card>
+
+        <section-card mini icon="mail" label="Contact information"></section-card>
+        <section-card mini icon="list" label="Curriculum Vitæ"></section-card>
+
+        <section-card mini icon="help" label="About Rich"></section-card>
+        <section-card mini icon="link" label="Interesting Links"></section-card>
+      </nav>
+    </div>
+  </template>
+</polymer-element>
+
