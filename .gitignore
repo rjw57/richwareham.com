@@ -1,1 +1,3 @@
-_site
+_sitenode_modules/
+node_modules/
+js/bower_components
