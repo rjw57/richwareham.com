@@ -38,4 +38,5 @@ skip_files:
 - ^(.*/)?.*\.py[co]
 - ^(.*/)?\..*
 - ^(.*/)?node_modules/.*
+- ^(.*/)?scripts/.*
 
