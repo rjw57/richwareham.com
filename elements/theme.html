@@ -85,6 +85,10 @@
   .table th { text-align: left; font-weight: 500; }
   .table td, .table th { padding: 8px; }
   .table tbody tr:nth-child(even) { background-color: rgba(0,0,0,0.12); }
+  .table td[incidental], .table th[incidental] { display: none; }
+  @media (min-width: 660px) {
+    .table td[incidental], .table th[incidental] { display: table-cell; }
+  }
 </core-style>
 
 <!-- Icons -->

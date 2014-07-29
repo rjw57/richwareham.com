@@ -21,14 +21,15 @@
     <template if="{{ links !== null }}">
       <table class="table">
         <thead>
-          <th>Shortcut</th><th>Destination</th><th>Modified</th><th>Created</th>
+          <th>Shortcut</th><th>Destination</th>
+          <th incidental>Modified</th><th incidental>Created</th>
         </thead>
         <tbody>
           <tr template repeat="{{ l in links }}">
             <td><a href="{{ l.urls.self }}">{{ l.from }}</a></td>
             <td><a href="{{ l.to }}">{{ l.to }}</a></td>
-            <td>{{ l.modified | date }}</td>
-            <td>{{ l.created | date }}</td>
+            <td incidental>{{ l.modified | date }}</td>
+            <td incidental>{{ l.created | date }}</td>
           </tr>
         </tbody>
       </table>
