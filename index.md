@@ -3,7 +3,7 @@ layout: homepage
 ---
 <core-style ref="rw-theme"></core-style>
 <core-scroll-header-panel flex>
-  <core-toolbar class="theme green bg fg">
+  <core-toolbar class="theme bluegrey bg fg">
     <div flex>Rich Wareham</div>
   </core-toolbar>
 
