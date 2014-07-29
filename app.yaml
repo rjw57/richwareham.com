@@ -25,6 +25,14 @@ handlers:
   static_files: js/bower_components/platform/platform.\1
   upload: js/bower_components/platform/platform.(.*)
 
+# Link shortening
+- url: /@[^/]*/(new|edit|delete)$
+  script: links.application
+  login: admin
+
+- url: /@[^/]*$
+  script: links.application
+
 # Misc URLs map directly to their path in _site/.
 - url: /
   static_dir: _site
