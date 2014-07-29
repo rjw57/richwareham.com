@@ -1,59 +1,57 @@
 ---
 layout: page
-title: Rich Wareham's Publications
+title: Publications
 permalink: /publications/
 theme: indigo
 ---
 
+Here are my publications sorted by year. It includes both conference and
+journal articles. The list itself is imported from the [CUED Publications
+Database](http://publications.eng.cam.ac.uk/) which may be more up to date and
+is more use if you want to search or filter by a particular topic or
+publication type.
+
 {% jsonball pubs from file publications.json %}
 
-<section class="theme white bg fg">
-  {% assign year = "" %}
-  {% for pub in pubs %}
-
+{% assign year = "" %}
+{% for pub in pubs %}
   {% capture pubyear %}{{ pub.timestamp | divided_by: 1000 | date: '%Y' }}{% endcapture %}
+
   {% if pubyear != year %}
-
-  <h1>{{ pubyear }}</h1>
-
+# {{ pubyear }}
   {% endif %}
+
   {% assign year = pubyear %}
 
-  {% if pub.type == 'article' %}
-    <publication-record articleTitle="{{ pub.title }}"
-      publicationTitle="{{ pub.publication }}" pagerange="{{ pub.pagerange }}"
-      volume="{{ pub.volume }}" issue="{{ pub.issue }}" href="{{ pub.uri }}" issn="{{ pub.issn }}"
-      year="{{ pub.timestamp | divided_by: 1000 | date: '%Y' }}">
-    {% for c in pub.creators %}
-    {% if c.name.family %}
-    <publication-author given="{{ c.name.given }}" family="{{ c.name.family }}">
-    </publication-author>
+  <pub-reference>
+    <pub-authors>
+      {% for c in pub.creators %}
+        {% if c.name.family and c.name.given %}
+          <pub-author>{{c.name.family}}, {{c.name.given}}</pub-author>
+        {% elsif c.name.family %}
+          <pub-author>{{c.name.family}}</pub-author>
+        {% endif %}
+      {% endfor %}
+    </pub-authors>
+    {% if pub.timestamp %}
+      <pub-date>{{ pub.timestamp | divided_by: 1000 | date: '%Y' }}</pub-date>
     {% endif %}
-    {% endfor %}
-    </publication-record>
-  {% elsif pub.type == 'conference_item' %}
-    <publication-record articleTitle="{{ pub.title }}"
-      eventTitle="{{ pub.event_title }}" eventLocation="{{ pub.event_location }}"
-      href="{{ pub.uri }}" issn="{{ pub.issn }}"
-      year="{{ pub.timestamp | divided_by: 1000 | date: '%Y' }}">
-    {% for c in pub.creators %}
-    {% if c.name.family %}
-    <publication-author given="{{ c.name.given }}" family="{{ c.name.family }}">
-    </publication-author>
+    {% if pub.title %}
+      {% if pub.uri %}
+        <pub-title><a href="{{pub.uri}}">{{ pub.title }}</a></pub-title>
+      {% else %}
+        <pub-title>{{ pub.title }}</pub-title>
+      {% endif %}
     {% endif %}
-    {% endfor %}
-    </publication-record>
-  {% else %}
-    <publication-record articleTitle="{{ pub.title }}"
-      href="{{ pub.uri }}" issn="{{ pub.issn }}"
-      year="{{ pub.timestamp | divided_by: 1000 | date: '%Y' }}">
-    {% for c in pub.creators %}
-    {% if c.name.family %}
-    <publication-author given="{{ c.name.given }}" family="{{ c.name.family }}">
-    </publication-author>
+    {% if pub.event_title %}
+      <pub-event>{{ pub.event_title }}{% if pub.event_location %},
+        {{ pub.event_location }}{% endif %}</pub-event>
     {% endif %}
-    {% endfor %}
-    </publication-record>
-  {% endif %}
-  {% endfor %}
-</section>
+    {% if pub.publication %}
+      <pub-publication>{{ pub.publication }}
+      {% if pub.volume %} ({{ pub.volume }}){% endif %}
+      {% if pub.pagerange %} pp. {{ pub.pagerange }}{% endif %}</pub-publication>
+    {% endif %}
+    {% if pub.issn %}<pub-additional>ISSN {{ pub.issn }}</pub-additional>{% endif %}
+  </pub-reference>
+{% endfor %}
