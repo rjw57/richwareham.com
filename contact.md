@@ -32,10 +32,10 @@ I am physically located in office <strong>BN3-07</strong> within the
 <strong>Department of Engineering</strong> of the <strong>University of
 Cambridge</strong>.
 
-<google-map latitude="52.198132" longitude="0.119534" fitToMarkers zoom="17">
+<p><google-map latitude="52.198132" longitude="0.119534" fitToMarkers zoom="17">
   <google-map-marker latitude="52.198132" longitude="0.119534"
     title="BN3-07"></google-map-marker>
-</google-map>
+</google-map></p>
 
 # Telephone
 
