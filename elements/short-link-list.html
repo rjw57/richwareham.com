@@ -1,0 +1,43 @@
+<link rel="import" href="../js/bower_components/polymer/polymer.html">
+<script src="../js/bower_components/moment/moment.js"></script>
+
+<link rel="import" href="loading-throbber.html">
+
+<polymer-element name="short-link-list" block attributes="hello">
+  <template>
+    <style>
+    </style>
+    <core-style ref="rw-theme"></core-style>
+
+    <core-ajax auto url="/@" handleAs="json" response="{{ links }}">
+    </core-ajax>
+
+    <template if="{{ links === null }}"><loading-throbber></loading-throbber></template>
+
+    <template if="{{ links !== null }}">
+      <table class="table">
+        <thead>
+          <th>Shortcut</th><th>Destination</th><th>Modified</th><th>Created</th>
+        </thead>
+        <tbody>
+          <template repeat="{{ l in links }}">
+            <tr>
+              <td><a href="{{ l.urls.self }}">{{ l.from }}</a></td>
+              <td><a href="{{ l.to }}">{{ l.to }}</a></td>
+              <td>{{ l.modified | date }}</td>
+              <td>{{ l.created | date }}</td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </template>
+  </template>
+  <script>Polymer({
+    date: function(value) {
+      return moment(value).format('lll');
+    },
+  });</script>
+</polymer-element>
+
+
+

@@ -98,9 +98,10 @@ class LinkHandler(webapp2.RequestHandler):
 
 class ListHandler(webapp2.RequestHandler):
     def get(self):
-        redirects = {}
+        redirects = []
         for r in Redirect.all():
-            redirects[r.key.id()] = {
+            redirects.append({
+                'from': r.key.id(),
                 'to': r.destination,
                 'created': r.created_at.isoformat(),
                 'modified': r.modified_at.isoformat(),
@@ -109,7 +110,7 @@ class ListHandler(webapp2.RequestHandler):
                     'edit': urljoin(self.request.host_url, self.uri_for('edit', key=r.key.id())),
                     'delete': urljoin(self.request.host_url, self.uri_for('delete', key=r.key.id())),
                 },
-            }
+            })
 
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(json.dumps(redirects))

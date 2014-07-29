@@ -16,7 +16,7 @@ handlers:
   static_files: _site/index.html
   upload: _site/index\.html
 
-- url: /(software|publications|research|teaching|contact|cv|about)$
+- url: /(software|publications|research|teaching|contact|cv|about|links)$
   static_files: _site/\1/index.html
   upload: _site/(.*)/index\.html
 

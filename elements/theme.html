@@ -64,12 +64,13 @@
   .theme.white.fg { color: black; }
 
   /* Links */
-  .theme a { color: #616161; } /* grey is the default */
-  .theme.indigo a { color: #303f9f; }
-  .theme.green a { color: #0a7e07; }
-  .theme.purple a { color: #7b1fa2; }
-  .theme.cyan a { color: #0097a7; }
-  .theme.teal a { color: #00796b; }
+  .theme /deep/ a { text-decoration: none; }
+  .theme /deep/ a { color: #424242; } /* grey is the default */
+  .theme.indigo /deep/ a { color: #303f9f; }
+  .theme.green /deep/ a { color: #0a7e07; }
+  .theme.purple /deep/ a { color: #7b1fa2; }
+  .theme.cyan /deep/ a { color: #0097a7; }
+  .theme.teal /deep/ a { color: #00796b; }
 
   /* Accents and secondary elements */
   .theme.text.secondary.bg { background-color: rgba(0,0,0,0.54); }
@@ -78,6 +79,12 @@
   /* Link-ish elements */
   a[overlay] { color: inherit; position: absolute; left: 0; top: 0; bottom: 0; right: 0; }
   a[overlay]:hover { background-color: rgba(255,255,255,0.1); }
+
+  /* Tables */
+  .table { width: 100%; border-spacing: 0; }
+  .table th { text-align: left; font-weight: 500; }
+  .table td, .table th { padding: 8px; }
+  .table tr:nth-child(2) { background-color: rgba(0,0,0,0.12); }
 </core-style>
 
 <!-- Icons -->
