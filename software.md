@@ -1,8 +1,9 @@
 ---
 layout: page
-title: Rich Wareham's Software
+title: Software
 permalink: /software/
 theme: purple
+icon: rw:software
 ---
 
 Foo barr buzz

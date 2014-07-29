@@ -1,5 +1,5 @@
 <polymer-element name="page-pane" block noscript
-    attributes="pageTitle theme href">
+    attributes="pageTitle theme href icon">
   <template>
     <style>
       @media (min-width: 960px) {
@@ -7,7 +7,9 @@
           width: 800px; margin: 64px 0;
         }
         nav { position: fixed; padding: 16px; color: rgba(0,0,0,0.54); }
+        [pageicon] { position: relative; top: -28px; }
       }
+      [pageicon] { opacity: 0.87; }
     </style>
     <core-style ref="rw-theme"></core-style>
     <core-media-query query="min-width: 960px" queryMatches="{{ wide }}">
@@ -18,6 +20,8 @@
         <core-toolbar class="theme {{ theme ? theme : 'grey' }} bg fg">
           <paper-icon-link icon="arrow-back" href="{{ href ? href : '/' }}"></paper-icon-link>
           <div flex>{{ pageTitle }}</div>
+          <template if="{{icon}}">
+            <core-icon pageicon icon="{{icon}}" size="32"></core-icon></template>
         </core-toolbar>
         <div content>
           <content></content>
@@ -32,8 +36,12 @@
       <div horizontal layout center-justified>
         <div content class="theme white fg bg">
           <paper-shadow></paper-shadow>
-          <core-toolbar class="theme {{ theme ? theme : 'grey' }} bg fg">
-            <div flex>{{ pageTitle }}</div>
+          <core-toolbar class="medium-tall theme {{ theme ? theme : 'grey' }} bg fg">
+            <div class="bottom" flex>{{ pageTitle }}</div>
+            <template if="{{icon}}">
+              <core-icon class="bottom" pageicon icon="{{icon}}" size="72">
+              </core-icon>
+            </template>
           </core-toolbar>
           <content></content>
         </div>

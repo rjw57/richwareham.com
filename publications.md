@@ -3,6 +3,7 @@ layout: page
 title: Publications
 permalink: /publications/
 theme: indigo
+icon: rw:publications
 ---
 
 Here are my publications sorted by year. It includes both conference and
