@@ -1,13 +1,24 @@
+<polymer-element name="page-card" block noscript class="theme white bg fg">
+  <template>
+    <paper-shadow z="0"></paper-shadow>
+    <!-- Direct use of classes is required because IE doesn't accept link clicks otherwise -->
+    <div class="card paper-shadow-top paper-shadow-top-z-1">
+      <div class="card-inner paper-shadow-bottom paper-shadow-bottom-z-1">
+        <content></content>
+      </div>
+    </div>
+  </template>
+</polymer-element>
+
 <polymer-element name="page-pane" block noscript
     attributes="pageTitle theme href icon">
   <template>
     <style>
       @media (min-width: 960px) {
-        [content] {
-          width: 800px; margin: 64px 0;
-        }
+        page-card { width: 800px; }
         nav { position: fixed; padding: 16px; color: rgba(0,0,0,0.54); }
         [pageicon] { position: relative; top: -28px; }
+        [card-wrapper] { padding: 64px 0; }
       }
       [pageicon] { opacity: 0.87; }
     </style>
@@ -23,9 +34,7 @@
           <template if="{{icon}}">
             <core-icon pageicon icon="{{icon}}" size="32"></core-icon></template>
         </core-toolbar>
-        <div content>
-          <content></content>
-        </div>
+        <div content><content></content>
       </core-scroll-header-panel>
     </template>
 
@@ -33,9 +42,8 @@
       <nav>
         <paper-icon-link icon="arrow-back" href="{{ href ? href : '/' }}"></paper-icon-link>
       </nav>
-      <div horizontal layout center-justified>
-        <div content class="theme white fg bg">
-          <paper-shadow></paper-shadow>
+      <div horizontal layout center-justified card-wrapper>
+        <page-card>
           <core-toolbar class="medium-tall theme {{ theme ? theme : 'grey' }} bg fg">
             <div class="bottom" flex>{{ pageTitle }}</div>
             <template if="{{icon}}">
@@ -44,7 +52,7 @@
             </template>
           </core-toolbar>
           <content></content>
-        </div>
+        <page-card>
       </div>
     </template>
   </template>
