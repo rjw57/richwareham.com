@@ -15,9 +15,22 @@ exclude: ["node_modules", "*.yaml", "*.json", ".*",
 # Explicitly include some files
 include: ["publications.json"]
 
+# Defaults for posts
+defaults:
+  -
+    scope:
+      path: ""
+      type: "post"
+    values:
+      theme: "blue"
+      layout: "post"
+      author: "Rich Wareham"
+
 # Build settings
 markdown: kramdown
-permalink: pretty
+permalink: /articles/:year/:month/:day/:title
 kramdown:
+  use_coderay: false
+  enable_coderay: false
   input: GFM
   hard_wrap: false

@@ -16,9 +16,14 @@ handlers:
   static_files: _site/index.html
   upload: _site/index\.html
 
-- url: /(software|publications|research|teaching|contact|cv|about|links)$
+- url: /(software|publications|research|teaching|contact|cv|about|links|articles)$
   static_files: _site/\1/index.html
   upload: _site/(.*)/index\.html
+
+# Articles
+- url: /articles/(.*)$
+  static_files: _site/articles/\1/index.html
+  upload: _site/articles/(.*)/index\.html
 
 # Bower components
 - url: /components/platform/platform.(.*)$
