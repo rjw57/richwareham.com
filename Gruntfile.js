@@ -127,6 +127,7 @@ module.exports = function(grunt) {
     processUrls(PUB_URLS, function(pubs) {
       fs.writeFile('publications.json', JSON.stringify(pubs), function() {
         grunt.log.writeln('Wrote ' + pubs.length + ' publications');
+        done(true);
       });
     });
   });
