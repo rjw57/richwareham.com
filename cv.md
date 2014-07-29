@@ -2,7 +2,7 @@
 layout: page
 title: Curriculum Vitæ
 permalink: /cv/
-theme: bluegrey
+theme: teal
 ---
 
 SDklsmkfds
