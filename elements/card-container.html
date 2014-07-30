@@ -1,6 +1,6 @@
 <link rel="import" href="../js/bower_components/polymer/polymer.html">
 
-<core-style id="cerd-container">
+<core-style id="card-container">
   :host { max-width: {{ g.hugeWidth }}; }
 
   ::content > * { float: left; }
@@ -27,7 +27,7 @@
   ::content > [w11] { width: calc(11 * 100% / 12 ); }
   ::content > [w12] { width: calc(12 * 100% / 12 ); }
 
-  @media (min-width: {{ g.mediumWidth }}) {
+  @media all and (min-width: {{ g.mediumWidth }}) {
     ::content > [md-w1] { width: calc(1 * 100% / 12 ); }
     ::content > [md-w2] { width: calc(2 * 100% / 12 ); }
     ::content > [md-w3] { width: calc(3 * 100% / 12 ); }
@@ -51,7 +51,7 @@
     ::content > [md-h8] { height: calc(8 * 64px); }
   }
 
-  @media (min-width: {{ g.largeWidth }}) {
+  @media all and (min-width: {{ g.largeWidth }}) {
     ::content > [lg-w1] { width: calc(1 * 100% / 12 ); }
     ::content > [lg-w2] { width: calc(2 * 100% / 12 ); }
     ::content > [lg-w3] { width: calc(3 * 100% / 12 ); }
@@ -75,7 +75,7 @@
     ::content > [lg-h8] { height: calc(8 * 64px); }
   }
 
-  @media (min-width: {{ g.hugeWidth }}) {
+  @media all and (min-width: {{ g.hugeWidth }}) {
     ::content > [hg-w1] { width: calc(1 * 100% / 12 ); }
     ::content > [hg-w2] { width: calc(2 * 100% / 12 ); }
     ::content > [hg-w3] { width: calc(3 * 100% / 12 ); }
@@ -102,7 +102,7 @@
 
 <polymer-element name="card-container" noscript block attributes="pad">
   <template>
-    <core-style ref="cerd-container"></core-style>
+    <core-style ref="card-container"></core-style>
     </style>
     <div _style="padding: {{ pad ? pad : 0 }};">
       <content></content>
