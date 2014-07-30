@@ -1,5 +1,115 @@
 <link rel="import" href="../js/bower_components/polymer/polymer.html">
 
+<core-style id="tile-container">
+  :host { max-width: {{ g.hugeWidth }}; }
+
+  ::content > * { float: left; }
+
+  ::content > [h1] { height: calc(1 * 64px); }
+  ::content > [h2] { height: calc(2 * 64px); }
+  ::content > [h3] { height: calc(3 * 64px); }
+  ::content > [h4] { height: calc(4 * 64px); }
+  ::content > [h5] { height: calc(5 * 64px); }
+  ::content > [h6] { height: calc(6 * 64px); }
+  ::content > [h7] { height: calc(7 * 64px); }
+  ::content > [h8] { height: calc(8 * 64px); }
+
+  ::content > [w1] { width: calc(1 * 100% / 12 ); }
+  ::content > [w2] { width: calc(2 * 100% / 12 ); }
+  ::content > [w3] { width: calc(3 * 100% / 12 ); }
+  ::content > [w4] { width: calc(4 * 100% / 12 ); }
+  ::content > [w5] { width: calc(5 * 100% / 12 ); }
+  ::content > [w6] { width: calc(6 * 100% / 12 ); }
+  ::content > [w7] { width: calc(7 * 100% / 12 ); }
+  ::content > [w8] { width: calc(8 * 100% / 12 ); }
+  ::content > [w9] { width: calc(9 * 100% / 12 ); }
+  ::content > [w10] { width: calc(10 * 100% / 12 ); }
+  ::content > [w11] { width: calc(11 * 100% / 12 ); }
+  ::content > [w12] { width: calc(12 * 100% / 12 ); }
+
+  @media (min-width: {{ g.mediumWidth }}) {
+    ::content > [md-w1] { width: calc(1 * 100% / 12 ); }
+    ::content > [md-w2] { width: calc(2 * 100% / 12 ); }
+    ::content > [md-w3] { width: calc(3 * 100% / 12 ); }
+    ::content > [md-w4] { width: calc(4 * 100% / 12 ); }
+    ::content > [md-w5] { width: calc(5 * 100% / 12 ); }
+    ::content > [md-w6] { width: calc(6 * 100% / 12 ); }
+    ::content > [md-w7] { width: calc(7 * 100% / 12 ); }
+    ::content > [md-w8] { width: calc(8 * 100% / 12 ); }
+    ::content > [md-w9] { width: calc(9 * 100% / 12 ); }
+    ::content > [md-w10] { width: calc(10 * 100% / 12 ); }
+    ::content > [md-w11] { width: calc(11 * 100% / 12 ); }
+    ::content > [md-w12] { width: calc(12 * 100% / 12 ); }
+
+    ::content > [md-h1] { height: calc(1 * 64px); }
+    ::content > [md-h2] { height: calc(2 * 64px); }
+    ::content > [md-h3] { height: calc(3 * 64px); }
+    ::content > [md-h4] { height: calc(4 * 64px); }
+    ::content > [md-h5] { height: calc(5 * 64px); }
+    ::content > [md-h6] { height: calc(6 * 64px); }
+    ::content > [md-h7] { height: calc(7 * 64px); }
+    ::content > [md-h8] { height: calc(8 * 64px); }
+  }
+
+  @media (min-width: {{ g.largeWidth }}) {
+    ::content > [lg-w1] { width: calc(1 * 100% / 12 ); }
+    ::content > [lg-w2] { width: calc(2 * 100% / 12 ); }
+    ::content > [lg-w3] { width: calc(3 * 100% / 12 ); }
+    ::content > [lg-w4] { width: calc(4 * 100% / 12 ); }
+    ::content > [lg-w5] { width: calc(5 * 100% / 12 ); }
+    ::content > [lg-w6] { width: calc(6 * 100% / 12 ); }
+    ::content > [lg-w7] { width: calc(7 * 100% / 12 ); }
+    ::content > [lg-w8] { width: calc(8 * 100% / 12 ); }
+    ::content > [lg-w9] { width: calc(9 * 100% / 12 ); }
+    ::content > [lg-w10] { width: calc(10 * 100% / 12 ); }
+    ::content > [lg-w11] { width: calc(11 * 100% / 12 ); }
+    ::content > [lg-w12] { width: calc(12 * 100% / 12 ); }
+
+    ::content > [lg-h1] { height: calc(1 * 64px); }
+    ::content > [lg-h2] { height: calc(2 * 64px); }
+    ::content > [lg-h3] { height: calc(3 * 64px); }
+    ::content > [lg-h4] { height: calc(4 * 64px); }
+    ::content > [lg-h5] { height: calc(5 * 64px); }
+    ::content > [lg-h6] { height: calc(6 * 64px); }
+    ::content > [lg-h7] { height: calc(7 * 64px); }
+    ::content > [lg-h8] { height: calc(8 * 64px); }
+  }
+
+  @media (min-width: {{ g.hugeWidth }}) {
+    ::content > [hg-w1] { width: calc(1 * 100% / 12 ); }
+    ::content > [hg-w2] { width: calc(2 * 100% / 12 ); }
+    ::content > [hg-w3] { width: calc(3 * 100% / 12 ); }
+    ::content > [hg-w4] { width: calc(4 * 100% / 12 ); }
+    ::content > [hg-w5] { width: calc(5 * 100% / 12 ); }
+    ::content > [hg-w6] { width: calc(6 * 100% / 12 ); }
+    ::content > [hg-w7] { width: calc(7 * 100% / 12 ); }
+    ::content > [hg-w8] { width: calc(8 * 100% / 12 ); }
+    ::content > [hg-w9] { width: calc(9 * 100% / 12 ); }
+    ::content > [hg-w10] { width: calc(10 * 100% / 12 ); }
+    ::content > [hg-w11] { width: calc(11 * 100% / 12 ); }
+    ::content > [hg-w12] { width: calc(12 * 100% / 12 ); }
+
+    ::content > [hg-h1] { height: calc(1 * 64px); }
+    ::content > [hg-h2] { height: calc(2 * 64px); }
+    ::content > [hg-h3] { height: calc(3 * 64px); }
+    ::content > [hg-h4] { height: calc(4 * 64px); }
+    ::content > [hg-h5] { height: calc(5 * 64px); }
+    ::content > [hg-h6] { height: calc(6 * 64px); }
+    ::content > [hg-h7] { height: calc(7 * 64px); }
+    ::content > [hg-h8] { height: calc(8 * 64px); }
+  }
+</core-style>
+
+<polymer-element name="card-container" noscript block attributes="pad">
+  <template>
+    <core-style ref="tile-container"></core-style>
+    </style>
+    <div _style="padding: {{ pad ? pad : 0 }};">
+      <content></content>
+    </div>
+  </template>
+</polymer-element>
+
 <polymer-element name="sections-list" noscript block>
   <template>
     <core-style ref="rw-theme"></core-style>
