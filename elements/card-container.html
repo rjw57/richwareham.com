@@ -1,6 +1,6 @@
 <link rel="import" href="../js/bower_components/polymer/polymer.html">
 
-<core-style id="tile-container">
+<core-style id="cerd-container">
   :host { max-width: {{ g.hugeWidth }}; }
 
   ::content > * { float: left; }
@@ -102,93 +102,10 @@
 
 <polymer-element name="card-container" noscript block attributes="pad">
   <template>
-    <core-style ref="tile-container"></core-style>
+    <core-style ref="cerd-container"></core-style>
     </style>
     <div _style="padding: {{ pad ? pad : 0 }};">
       <content></content>
     </div>
   </template>
 </polymer-element>
-
-<polymer-element name="sections-list" noscript block>
-  <template>
-    <core-style ref="rw-theme"></core-style>
-
-    <style>
-      [nav-wrapper] { padding: 8px; }
-
-      nav { width: 100%; }
-
-      section-card {
-        width: calc(100% / 2);
-        height: calc(64px * 2);
-        float: left;
-      }
-
-      section-card[mini] {
-        width: calc(100% / 1);
-        height: 64px;
-      }
-
-      section-card[micro] {
-        width: calc(100% / 2);
-        height: 64px;
-      }
-
-      @media (min-width: 660px) {
-        section-card {
-          width: calc(100% / 2);
-          height: calc(64px * 4);
-        }
-        section-card[mini] { width: calc(100% / 2); }
-        section-card[micro] { width: calc(100% / 4); }
-      }
-
-      @media (min-width: 1024px) {
-        section-card { width: calc(100% / 3); }
-        section-card[mini] { width: calc(100% / 3); }
-        section-card[micro] { width: calc(100% / 3); }
-      }
-
-      @media (min-width: 1400px) {
-        section-card { width: calc(100% / 4); }
-        section-card[mini] { width: calc(100% / 4); }
-        section-card[micro] { width: calc(100% / 4); }
-        nav { width: 1400px; }
-      }
-    </style>
-
-    <div nav-wrapper horizontal layout center-justified>
-      <nav>
-        <section-card featured label="Software" icon="rw:software" theme="purple"
-          href="/software"></section-card>
-        <section-card featured label="Publications" icon="rw:publications" theme="indigo"
-          href="/publications"></section-card>
-        <section-card featured label="Research" icon="rw:research" theme="green"
-          href="/research"></section-card>
-        <section-card featured label="Teaching" icon="rw:teaching" theme="cyan"
-          href="/teaching"></section-card>
-
-        <section-card micro icon="rw:github" theme="deeporange" label="Github"
-          href="https://github.com/rjw57"></section-card>
-        <section-card micro icon="google-plus" theme="deeporange" label="Google Plus"
-          href="https://google.com/+RichWareham"></section-card>
-        <section-card micro icon="rw:twitter" theme="deeporange" label="Twitter"
-          href="https://twitter.com/richwareham"></section-card>
-        <section-card micro icon="rw:facebook" theme="deeporange" label="Facebook"
-          href="https://facebook.com/profile.php?id=100008218691466"></section-card>
-
-        <section-card mini icon="communication:message" theme="teal" href="/contact"
-          label="Contact information"></section-card>
-        <section-card mini icon="list" theme="teal" href="/cv"
-          label="Curriculum Vitæ"></section-card>
-
-        <section-card mini icon="help" href="/about"
-          label="About Rich"></section-card>
-        <section-card mini icon="link" href="/links"
-          label="Interesting Links"></section-card>
-      </nav>
-    </div>
-  </template>
-</polymer-element>
-
