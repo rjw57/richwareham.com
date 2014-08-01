@@ -22,10 +22,7 @@
       }
     </style>
 
-    <core-media-query query="min-width: 660px" queryMatches="{{ tab }}">
-    </core-media-query>
-
-    <core-media-query query="min-width: 800px" queryMatches="{{ wide }}">
+    <core-media-query query="min-width: 1024px" queryMatches="{{ wide }}">
     </core-media-query>
 
     <div relative card flex class="theme {{ theme ? theme : 'grey' }} bg fg"
@@ -37,7 +34,7 @@
         <div flex vertical layout content>
           <div flex horizontal layout center-justified>
             <div vertical layout center-justified>
-              <core-icon icon="{{ icon }}" size="56"></core-icon>
+              <core-icon icon="{{ icon }}" size="{{ wide ? 128 : 96 }}"></core-icon>
             </div>
           </div>
           <div class="theme text secondary bg fg">

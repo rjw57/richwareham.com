@@ -10,7 +10,8 @@ Here are my publications sorted by year. It includes both conference and
 journal articles. The list itself is imported from the [CUED Publications
 Database](http://publications.eng.cam.ac.uk/) which may be more up to date and
 is more use if you want to search or filter by a particular topic or
-publication type.
+publication type. There is also a machine-readable [JSON
+version](publications.json) available.
 
 {% jsonball pubs from file publications.json %}
 
