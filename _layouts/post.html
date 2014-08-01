@@ -1,10 +1,8 @@
 ---
 layout: default
 ---
-<page-pane flex theme="{{ page.theme }}" pageTitle="{{ page.title }}" icon="{{ page.icon }}">
-  {% if page.cover %}
-    <img class="page-cover" src="{{ site.url }}/{{ page.cover }}" alt="{{ page.coveralt }}">
-  {% endif %}
+<page-pane flex theme="{{ page.theme }}" pageTitle="{{ page.title }}" icon="{{ page.icon }}"
+    coverSrc="{{ site.url }}/{{ page.cover }}" coverAlt="{{ page.coveralt }}">
   <article>
     {{ content }}
   </article>

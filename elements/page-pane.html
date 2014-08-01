@@ -14,7 +14,7 @@
 </polymer-element>
 
 <polymer-element name="page-pane" block noscript
-    attributes="pageTitle theme href icon">
+    attributes="pageTitle theme href icon coverSrc coverAlt">
   <template>
     <style>
       @media (min-width: 960px) {
@@ -24,6 +24,16 @@
         [card-wrapper] { padding: 64px 0; }
       }
       [pageicon] { opacity: 0.87; }
+      [cover] {
+        background-size: cover;
+        background-position: 50% 33%;
+        width: 100%;
+        height: 56vw;
+      }
+
+      @media screen and (min-width: 960px) {
+        [cover] { height: 450px; }
+      }
     </style>
     <core-style ref="rw-theme"></core-style>
     <core-media-query query="min-width: 960px" queryMatches="{{ wide }}">
@@ -37,7 +47,12 @@
           <template if="{{icon}}">
             <core-icon pageicon icon="{{icon}}" size="32"></core-icon></template>
         </core-toolbar>
-        <div content><content></content>
+        <div content>
+          <template if="{{ coverSrc }}">
+            <div cover _style="background-image: url({{ coverSrc }});"></div>
+          </template>
+          <content></content>
+        </div>
       </core-scroll-header-panel>
     </template>
 
@@ -54,6 +69,11 @@
               </core-icon>
             </template>
           </core-toolbar>
+          <template if="{{ coverSrc }}">
+            <a href="{{ coverSrc }}" target="_blank">
+              <div cover _style="background-image: url({{ coverSrc }});"></div>
+            </a>
+          </template>
           <content></content>
         <page-card>
       </div>
