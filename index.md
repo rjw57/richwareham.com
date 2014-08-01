@@ -2,58 +2,60 @@
 layout: homepage
 ---
 <core-style ref="rw-theme"></core-style>
+<core-style ref="tile-layout"></core-style>
+
 <core-scroll-header-panel flex>
   <core-toolbar class="theme bluegrey bg fg">
     <div flex>Rich Wareham</div>
   </core-toolbar>
 
   <div content>
-    <nav horizontal layout center-justified>
-      <card-container pad="8px">
-        <card-container w12 h3 md-w6 md-h6 lg-w4 lg-h8>
-          <section-card w6 h3 md-w12 md-h4 lg-h6 featured label="Featured post" theme="blue"
+    <nav style="padding: 8px;" horizontal layout center-justified>
+      <card-container tile w12 style="max-width: 1400px;">
+        <card-container tile w12 h3 md-w6 md-h6 lg-w4 lg-h8>
+          <section-card tile w6 h3 md-w12 md-h4 lg-h6 featured label="Featured post" theme="blue"
             href="/software"></section-card>
-          <section-card w6 h1 md-w12 icon="communication:message" theme="blue" href="/contact"
+          <section-card tile w6 h1 md-w12 icon="communication:message" theme="blue" href="/contact"
             label="Previous post title"></section-card>
-          <section-card w6 h1 icon="communication:message" theme="blue" href="/contact"
+          <section-card tile w6 h1 icon="communication:message" theme="blue" href="/contact"
             label="Previous previous post title"></section-card>
-          <section-card w6 h1 icon="more-horiz" theme="blue" href="/contact"
+          <section-card tile w6 h1 icon="more-horiz" theme="blue" href="/contact"
             label="More"></section-card>
         </card-container>
 
-        <card-container w12 h6 md-w6 md-h6 lg-w8 lg-h8>
-          <section-card w6 h3 md-h3 lg-h4 featured label="Software" icon="rw:software" theme="purple"
+        <card-container tile w12 h6 md-w6 md-h6 lg-w8 lg-h8>
+          <section-card tile w6 h3 md-h3 lg-h4 featured label="Software" icon="rw:software" theme="purple"
             href="/software"></section-card>
-          <section-card w6 h3 md-h3 lg-h4 featured label="Publications" icon="rw:publications" theme="indigo"
+          <section-card tile w6 h3 md-h3 lg-h4 featured label="Publications" icon="rw:publications" theme="indigo"
             href="/publications"></section-card>
-          <section-card w6 h3 md-h3 lg-h4 featured label="Research" icon="rw:research" theme="green"
+          <section-card tile w6 h3 md-h3 lg-h4 featured label="Research" icon="rw:research" theme="green"
             href="/research"></section-card>
-          <section-card w6 h3 md-h3 lg-h4 featured label="Teaching" icon="rw:teaching" theme="cyan"
+          <section-card tile w6 h3 md-h3 lg-h4 featured label="Teaching" icon="rw:teaching" theme="cyan"
             href="/teaching"></section-card>
         </card-container>
 
-        <card-container w12 h2 md-w6 lg-w6 lg-h2>
-          <section-card w6 h1 lg-w6 icon="rw:github" theme="deeporange" label="Github"
+        <card-container tile w12 h2 md-w6 lg-w6 lg-h2>
+          <section-card tile w6 h1 lg-w6 icon="rw:github" theme="deeporange" label="Github"
             href="https://github.com/rjw57"></section-card>
-          <section-card w6 h1 lg-w6 icon="google-plus" theme="deeporange" label="Google Plus"
+          <section-card tile w6 h1 lg-w6 icon="google-plus" theme="deeporange" label="Google Plus"
             href="https://google.com/+RichWareham"></section-card>
-          <section-card w6 h1 lg-w6 icon="rw:twitter" theme="deeporange" label="Twitter"
+          <section-card tile w6 h1 lg-w6 icon="rw:twitter" theme="deeporange" label="Twitter"
             href="https://twitter.com/richwareham"></section-card>
-          <section-card w6 h1 lg-w6 icon="rw:facebook" theme="deeporange" label="Facebook"
+          <section-card tile w6 h1 lg-w6 icon="rw:facebook" theme="deeporange" label="Facebook"
             href="https://facebook.com/profile.php?id=100008218691466"></section-card>
         </card-container>
 
-        <card-container w12 h2 md-w6 lg-w3>
-          <section-card w12 h1 icon="communication:message" theme="teal" href="/contact"
+        <card-container tile w12 h2 md-w6 lg-w3>
+          <section-card tile w12 h1 icon="communication:message" theme="teal" href="/contact"
             label="Contact information"></section-card>
-          <section-card w12 h1 icon="list" theme="teal" href="/cv"
+          <section-card tile w12 h1 icon="list" theme="teal" href="/cv"
             label="Curriculum Vitæ"></section-card>
         </card-container>
 
-        <card-container w12 h1 lg-w3 lg-h2>
-          <section-card w6 h1 lg-w12 icon="help" href="/about"
+        <card-container tile w12 h1 lg-w3 lg-h2>
+          <section-card tile w6 h1 lg-w12 icon="help" href="/about"
             label="About Rich"></section-card>
-          <section-card w6 h1 lg-w12 icon="link" href="/links"
+          <section-card tile w6 h1 lg-w12 icon="link" href="/links"
             label="Links"></section-card>
         </card-container>
       </card-container>
