@@ -1,5 +1,11 @@
 ---
-layout: page
+layout: default
 ---
-
-{{ content }}
+<page-pane flex theme="{{ page.theme }}" pageTitle="{{ page.title }}" icon="{{ page.icon }}">
+  {% if page.cover %}
+    <img class="page-cover" src="{{ site.url }}/{{ page.cover }}" alt="{{ page.coveralt }}">
+  {% endif %}
+  <article>
+    {{ content }}
+  </article>
+</page-pane>

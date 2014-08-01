@@ -1,9 +1,9 @@
 ---
 title: Processing the UK's real-time traffic data with Python
 categories: Python Friday project data munging GIS matplotlib data.gov.uk
+cover: images/realtime-traffic-data/england-traffic-delays.png
+coveralt: "An example traffic map"
 ---
-
-![An example traffic map]({{ site.url }}/images/realtime-traffic-data/england-traffic-delays.png)
 
 *In this post: parsing the real-time traffic feed from the [UK Highways Agency](http://www.highways.gov.uk/); plotting
 the UK's major road links an map using the Ordinance Survey national grid; colouring the result nicely.*
@@ -16,7 +16,7 @@ this data and see what I could get out of it.
 
 [ukha-live-data]: http://data.gov.uk/dataset/live-traffic-information-from-the-highways-agency-road-network
 
-## What is available
+# What is available
 
 The data itself takes the form of XML documents which are updated every so often with the current state of the road
 network in England. Some files are updated around once every 10 minutes. For example, the UK Highways Agency maintain a
@@ -33,7 +33,7 @@ It is such data which is used to create traffic delay maps such as the one at th
 [anpr]: http://en.wikipedia.org/wiki/Automatic_number_plate_recognition
 [traffic-map]: http://www.trafficengland.com/map.aspx?long0=-128.10065526342794&lat0=3205.4288365561897&long1=119.32156695879439&lat1=3099.8639213019524&ct=true
 
-## Road locations
+# Road locations
 
 According to data.gov.uk, [the location data] [predefined-locations-journey-times] for journey time data is available from
 the following URL:
@@ -87,7 +87,7 @@ sufficient to look at a single truncated and annotated example. I've left out el
 </d2LogicalModel>
 ```
 
-### Parsing
+## Parsing
 
 Fetching and parsing this document is the work of a few lines thanks to the Python standard library and [lxml]'s
 `objectify` module:
@@ -179,7 +179,7 @@ will be the start and end points.
 location_segments = dict((l.attrib['id'], location_to_lnglat_pair(l)) for l in locations)
 ```
 
-### Plotting
+## Plotting
 
 The matplotlib library has a handy [LineCollection] object which can be used to directly plot a set of linear segments
 in very few lines:
@@ -288,7 +288,7 @@ axis('equal')
 
 Notice how the distortion of England is now reduced and, also, that the plot's x- and y-axes are now in metres.
 
-### Adding a base map underlay
+## Adding a base map underlay
 
 It would be nice to get a base map under the road network so that we can orient ourselves with respect to major cities
 and the coastline of England. The [GeoTIFF](http://en.wikipedia.org/wiki/GeoTIFF) format is a variant of the TIFF image
@@ -303,7 +303,7 @@ the `DOWNLOADS_DIR` variable to the path of that directory. Opening the base map
 import os
 from osgeo import gdal
 
-# DOWNLOADS_DIR is the location of your downloads folder
+ DOWNLOADS_DIR is the location of your downloads folder
 base_map_ds = gdal.Open(os.path.join(DOWNLOADS_DIR, 'england-basemap-osgrid.tiff'))
 ```
 
@@ -322,7 +322,7 @@ the GeoTIFF:
 ```python
 origin_x, pixel_size_x, _, origin_y, _, pixel_size_y = base_map_ds.GetGeoTransform()
 
-# Compute minx, maxx, miny, maxy for image. Notice that, since pixel_size_y is -ve, the miny is not origin_y.
+ Compute minx, maxx, miny, maxy for image. Notice that, since pixel_size_y is -ve, the miny is not origin_y.
 base_map_extent = (
     origin_x, origin_x + pixel_size_x * base_map_ds.RasterXSize,
     origin_y + pixel_size_y * base_map_ds.RasterYSize, origin_y,
@@ -349,7 +349,7 @@ gca().add_collection(lc)
 
 ![England's roads with a base map]({{ site.url }}/images/realtime-traffic-data/figure3.png)
 
-### Offsetting each carriageway
+## Offsetting each carriageway
 
 It isn't obvious from the map above but each link is actually defined twice, once for each carriage way. The difference
 is in the ordering of the 'to' and 'from' points. Traffic maps usually offset each carriage way so that both may be
@@ -361,7 +361,7 @@ This is simply the 'from' point subtracted from the 'to' point. We also need to 
 length:
 
 ```python
-# Compute unit direction of each segment
+ Compute unit direction of each segment
 segment_directions = segment_coords[:,1,:] - segment_coords[:,0,:]
 segment_directions /= np.sqrt((segment_directions ** 2).sum(-1))[..., np.newaxis]
 ```
@@ -407,7 +407,7 @@ gca().add_collection(lc)
 
 ![England's road network with overlapping roads offset]({{ site.url }}/images/realtime-traffic-data/figure4.png)
 
-## Journey times
+# Journey times
 
 According to data.gov.uk, [the journey time data] [journey-times] is available from the following URL:
 
@@ -499,10 +499,10 @@ Notice the $-1$ there? That is used to show a 'no result' or 'missing' datum. We
 vector of delays in minutes for each link and also an array of flags indicating if a particular link is 'good' or 'bad'.
 
 ```python
-# Extract the data we want to plot. In this case it is delay time in minutes.
+ Extract the data we want to plot. In this case it is delay time in minutes.
 data = (journey_time_data[:,0] - journey_time_data[:,2]) / 60
 
-# Find where the 'good' (i.e. non-NaN and non-zero) data is
+ Find where the 'good' (i.e. non-NaN and non-zero) data is
 good_data = np.logical_and(np.isfinite(data), np.all(journey_time_data > 0, axis=1))
 ```
 
@@ -511,34 +511,34 @@ Finally we can put all of this together to plot the road network coloured by del
 ```python
 figure(figsize=(10,10))
 
-# Plot the base map at 50% opacity over a black background
+ Plot the base map at 50% opacity over a black background
 gca().set_axis_bgcolor((0,0,0))
 imshow(base_map, extent=base_map_extent, alpha=0.7)
 
-# Add the line collection which is just the links
+ Add the line collection which is just the links
 lc = LineCollection(segment_coords, lw=6, color='white', alpha=0.2)
 gca().add_collection(lc)
 
-# Add the LineCollection showing bad data
+ Add the LineCollection showing bad data
 lc = LineCollection(segment_coords[np.logical_not(good_data),...],
     lw=2, color='gray',
     offsets=3*segment_offsets[np.logical_not(good_data),...], transOffset=transforms.IdentityTransform())
 gca().add_collection(lc)
 
-# Add the LineCollection showing good data
+ Add the LineCollection showing good data
 lc = LineCollection(segment_coords[good_data,...],
     array=data[good_data], cmap=cm.RdYlGn_r, clim=(15, 45), lw=2,
     offsets=3*segment_offsets[good_data,...], transOffset=transforms.IdentityTransform())
 gca().add_collection(lc)
 
-# Add a colour bar
+ Add a colour bar
 cb = colorbar(lc, extend='both')
 cb.set_label('Delay / minutes')
 
-# Set plot title and label axes
+ Set plot title and label axes
 title('Travel delays in England on {0}'.format(pub_time.strftime('%X, %x')))
 
-# Comment out if you want to have the x- and y- axes labelled
+ Comment out if you want to have the x- and y- axes labelled
 gca().get_xaxis().set_visible(False)
 gca().get_yaxis().set_visible(False)
 ```
@@ -547,7 +547,7 @@ gca().get_yaxis().set_visible(False)
 
 You can see at the current time of writing, the road network of the UK is in a pretty good state.
 
-## Resources
+# Resources
 
 * [An IPython notebook with this code in] [notebook].
 * [The Python script used to generate the image at the top of the post] [script].

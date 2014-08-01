@@ -24,7 +24,7 @@ publication type.
 
   {% assign year = pubyear %}
 
-  <pub-reference>
+  <p><pub-reference>
     <pub-authors>
       {% for c in pub.creators %}
         {% if c.name.family and c.name.given %}
@@ -54,5 +54,5 @@ publication type.
       {% if pub.pagerange %} pp. {{ pub.pagerange }}{% endif %}</pub-publication>
     {% endif %}
     {% if pub.issn %}<pub-additional>ISSN {{ pub.issn }}</pub-additional>{% endif %}
-  </pub-reference>
+  </pub-reference></p>
 {% endfor %}

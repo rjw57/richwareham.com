@@ -1,9 +1,9 @@
 ---
 title: "iOS versus Android: plotting tweet location heat maps with Twython"
 categories: Python Friday project GIS matplotlib Twitter Twython iOS Android
+cover: images/geolocating-twython/preferences.png
+coveralt: "Geographic preferences for mobile devices"
 ---
-
-![Geographic preferences for mobile devices]({{ site.url }}/images/geolocating-twython/preferences.png)
 
 *In this post: creating a Twitter 'app'; drinking from the Twitter firehose; an exotic projection; binning; blurring; a
 dubious preference metric.*

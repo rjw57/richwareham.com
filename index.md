@@ -12,20 +12,22 @@ layout: homepage
   <div content>
     <nav style="padding: 8px;" horizontal layout center-justified>
       <card-container tile w12 style="max-width: 1400px;">
-        <card-container tile w12 h3 md-w6 md-h6 lg-w4 lg-h8>
+        <card-container tile w12 h3 md-w6 md-h6 lg-w6 lg-h8>
           <section-card tile w6 h3 md-w12 md-h4 lg-h6 featured
             label="{{ site.posts[0].title }}" theme="blue"
             coverSrc="{{sit.url}}/{{ site.posts[0].cover }}"
-            href="/software"></section-card>
-          <section-card tile w6 h1 md-w12 icon="communication:message" theme="blue" href="/contact"
-            label="Previous post title"></section-card>
-          <section-card tile w6 h1 icon="communication:message" theme="blue" href="/contact"
-            label="Previous previous post title"></section-card>
-          <section-card tile w6 h1 icon="more-horiz" theme="blue" href="/contact"
+            href="{{ site.posts[0].url }}"></section-card>
+          <section-card tile w6 h1 md-w12 icon="communication:message" theme="blue"
+            href="{{ site.posts[1].url }}"
+            label="{{ site.posts[1].title }}"></section-card>
+          <section-card tile w6 h1 icon="communication:message" theme="blue"
+            href="{{ site.posts[2].url }}"
+            label="{{ site.posts[2].title }}"></section-card>
+          <section-card tile w6 h1 icon="more-horiz" theme="blue" href="/articles"
             label="More"></section-card>
         </card-container>
 
-        <card-container tile w12 h6 md-w6 md-h6 lg-w8 lg-h8>
+        <card-container tile w12 h6 md-w6 md-h6 lg-w6 lg-h8>
           <section-card tile w6 h3 md-h3 lg-h4 featured label="Software" icon="rw:software" theme="purple"
             href="/software"></section-card>
           <section-card tile w6 h3 md-h3 lg-h4 featured label="Publications" icon="rw:publications" theme="indigo"

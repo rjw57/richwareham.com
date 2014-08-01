@@ -8,9 +8,18 @@
     <style>
       [card] {
         margin: 8px;
-        background-position: center;
+        background-position: 50% 33%;
       }
       [content] > * { padding: 8px; }
+      [label] {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      [featured-label] {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     </style>
 
     <core-media-query query="min-width: 660px" queryMatches="{{ tab }}">
@@ -20,7 +29,7 @@
     </core-media-query>
 
     <div relative card flex class="theme {{ theme ? theme : 'grey' }} bg fg"
-        style="{{ coverSrc ? 'background-image: url(' + coverSrc + ')' : '' }}"
+        _style="{{ coverSrc ? 'background-image: url(' + coverSrc + ')' : '' }}"
         vertical layout>
       <paper-shadow></paper-shadow>
 
@@ -31,7 +40,9 @@
               <core-icon icon="{{ icon }}" size="56"></core-icon>
             </div>
           </div>
-          <div class="theme text secondary bg fg">{{ label }}</div>
+          <div class="theme text secondary bg fg">
+            <div featured-label>{{ label }}</div>
+          </div>
         </div>
       </template>
 
@@ -42,7 +53,9 @@
               <core-icon icon="{{ icon }}" size="32"></core-icon>
             </div>
           </template>
-          <div flex vertical layout center-justified>{{ label }}</div>
+          <div flex vertical layout center-justified>
+            <div label>{{ label }}</div>
+          </div>
         </div>
       </template>
 

@@ -5,6 +5,8 @@ permalink: /links/
 icon: link
 ---
 
+This page contains various links that you may find interesting.
+
 # Link shortcuts
 
 I operate my own link shortener to allow convenient linking to slides,

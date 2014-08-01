@@ -2,6 +2,47 @@
   @import url(//fonts.googleapis.com/css?family=Roboto:400,300,400italic,300italic,500,500italic,700,700italic);
   :host { font-family: 'Roboto', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif; }
 
+  /* Reset h<n> styles */
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0; padding: 0 16px; font-weight: normal;
+  }
+
+  h1 {
+    font-size: 24px; line-height: 32px;
+    padding-top: 8px; padding-bottom: 8px;
+    margin-bottom: 4px; background-color: rgba(0,0,0,0.12);
+    color: #444;
+  }
+
+  h2 {
+    font-weight: 500;
+    font-size: 20px; line-height: 24px;
+    color: #444;
+  }
+
+  /* Page cover images */
+  .page-cover { max-width: 100%; height: auto; }
+
+  /* Article top-level elements */
+  article { padding: 0 0 8px 0; }
+  article > p { padding: 4px 16px; }
+  article > blockquote {
+    background-color: rgba(0,0,0,0.26);
+    margin: 4px 0;
+    padding: 8px 16px;
+  }
+  article > pre > code {
+    padding: 8px 16px !important; /* Overriding hljs' default */
+    overflow-x: auto;
+  }
+  article > p > img, article > img { max-width: 100%; height: auto; }
+
+  article a, article a:visited { color: #555; text-decoration: none; }
+
+  address { font-style: inherit; }
+
+  code, pre { font-family: 'Droid Sans Mono', 'Consolas', monospace; }
+
   /* Primary colours */
   .theme.red.bg { background-color: #e51c23; }
   .theme.red.light.bg { background-color: #f9bdbb; }
@@ -91,6 +132,7 @@
   .table { width: 100%; border-spacing: 0; }
   .table th { text-align: left; font-weight: 500; }
   .table td, .table th { padding: 8px; }
+  .table tr { padding: 0 16px; }
   .table tbody tr:nth-child(even) { background-color: rgba(0,0,0,0.12); }
   .table td[incidental], .table th[incidental] { display: none; }
   @media (min-width: 660px) {
