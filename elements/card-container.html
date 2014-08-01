@@ -100,12 +100,10 @@
   }
 </core-style>
 
-<polymer-element name="card-container" noscript block attributes="pad">
+<polymer-element name="card-container" noscript block>
   <template>
     <style>
     </style>
-    <div _style="padding: {{ pad ? pad : 0 }};">
-      <content></content>
-    </div>
+    <content></content>
   </template>
 </polymer-element>

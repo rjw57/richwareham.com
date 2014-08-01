@@ -4,9 +4,9 @@ layout: homepage
 <core-style ref="rw-theme"></core-style>
 <core-style ref="tile-layout"></core-style>
 
-<core-scroll-header-panel flex>
+<core-scroll-header-panel flex class="theme dark bluegrey bg fg">
   <core-toolbar class="theme bluegrey bg fg">
-    <div flex>Rich Wareham</div>
+    <div flex>{{ site.title }}</div>
   </core-toolbar>
 
   <div content>
