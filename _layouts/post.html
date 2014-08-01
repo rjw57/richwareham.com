@@ -2,7 +2,7 @@
 layout: default
 ---
 <page-pane flex theme="{{ page.theme }}" pageTitle="{{ page.title }}" icon="{{ page.icon }}"
-    coverSrc="{{ site.url }}/{{ page.cover }}" coverAlt="{{ page.coveralt }}">
+coverSrc="{% if page.cover %}{{ site.url }}/{{ page.cover }}{% endif %}" coverAlt="{{ page.coveralt }}">
   <article>
     {{ content }}
   </article>
