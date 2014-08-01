@@ -13,7 +13,9 @@ layout: homepage
     <nav style="padding: 8px;" horizontal layout center-justified>
       <card-container tile w12 style="max-width: 1400px;">
         <card-container tile w12 h3 md-w6 md-h6 lg-w4 lg-h8>
-          <section-card tile w6 h3 md-w12 md-h4 lg-h6 featured label="Featured post" theme="blue"
+          <section-card tile w6 h3 md-w12 md-h4 lg-h6 featured
+            label="{{ site.posts[0].title }}" theme="blue"
+            coverSrc="{{sit.url}}/{{ site.posts[0].cover }}"
             href="/software"></section-card>
           <section-card tile w6 h1 md-w12 icon="communication:message" theme="blue" href="/contact"
             label="Previous post title"></section-card>

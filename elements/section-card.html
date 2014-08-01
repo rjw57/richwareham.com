@@ -1,12 +1,15 @@
 <link rel="import" href="../js/bower_components/polymer/polymer.html">
 
 <polymer-element name="section-card" noscript block vertical layout
-    attributes="label icon theme featured href">
+    attributes="label icon theme featured href coverSrc">
   <template>
     <core-style ref="rw-theme"></core-style>
 
     <style>
-      [card] { margin: 8px; }
+      [card] {
+        margin: 8px;
+        background-position: center;
+      }
       [content] > * { padding: 8px; }
     </style>
 
@@ -16,7 +19,9 @@
     <core-media-query query="min-width: 800px" queryMatches="{{ wide }}">
     </core-media-query>
 
-    <div relative card flex class="theme {{ theme ? theme : 'grey' }} bg fg" vertical layout>
+    <div relative card flex class="theme {{ theme ? theme : 'grey' }} bg fg"
+        style="{{ coverSrc ? 'background-image: url(' + coverSrc + ')' : '' }}"
+        vertical layout>
       <paper-shadow></paper-shadow>
 
       <template if="{{featured !== null}}">

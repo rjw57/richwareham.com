@@ -1,6 +1,7 @@
 ---
 title:  "Welcome to Jekyll!"
 categories: jekyll update
+cover: images/realtime-traffic-data/england-traffic-delays.png
 ---
 
 You'll find this post in your `_posts` directory - edit this post and re-build (or run with the `-w` switch) to see your changes!
