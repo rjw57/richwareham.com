@@ -1,11 +1,10 @@
 ---
 layout: page
-title: About
+title: About Rich
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](http://jekyllrb.com/)
-
-You can find the source code for the Jekyll new theme at: [github.com/jglovier/jekyll-new](https://github.com/jglovier/jekyll-new)
-
-You can find the source code for Jekyll at [github.com/jekyll/jekyll](https://github.com/jekyll/jekyll)
+Dr Rich Wareham is a research associate in the [Signal Processing and
+Communications Laboratory](http://sigproc.eng.cam.ac.uk/) in the Departmenr of
+Engineering, University of Cambridge. He is a lover of technology, language and
+food in that order. He's been know to binge on all of them.
