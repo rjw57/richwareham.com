@@ -38,7 +38,11 @@
     padding: 8px 16px !important; /* Overriding hljs' default */
     overflow-x: auto;
   }
-  article > p > img, article > img { max-width: 100%; height: auto; }
+
+  /* Centre images in articles */
+  article > p > img, article > img {
+    max-width: 100%; height: auto; margin: 0 auto; display: block;
+  }
 
   article a, article a:visited { color: #555; text-decoration: none; }
 
