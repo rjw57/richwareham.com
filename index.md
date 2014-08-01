@@ -24,7 +24,7 @@ layout: homepage
             href="{{ site.posts[2].url }}"
             label="{{ site.posts[2].title }}"></section-card>
           <section-card tile w6 h1 icon="more-horiz" theme="blue" href="/articles"
-            label="More"></section-card>
+            label="More articles"></section-card>
         </card-container>
 
         <card-container tile w12 h6 md-w6 md-h6 lg-w6 lg-h8>
