@@ -4,6 +4,7 @@ implementation. Note that the blueprint does *not* start its URL routes with
 '/' and so one should use a URL prefix when registering the blueprint.
 """
 import datetime
+import functools
 import logging
 import os
 import random
@@ -11,7 +12,7 @@ import tempfile
 from urllib.parse import urljoin, urlparse, urlunparse
 
 import flask
-from flask import Blueprint, url_for, jsonify, request, render_template
+from flask import Blueprint, url_for, jsonify, request, render_template, current_app
 from sqlalchemy import create_engine, func
 from sqlalchemy import Column, Integer, String, DateTime, Boolean, Index
 from sqlalchemy.ext.declarative import declarative_base
@@ -26,7 +27,6 @@ ID_CHARS = 'ABCDEFGHJKLMNOPQRSTUVWXYZ23456789'
 # Directory holding templates
 app = Blueprint('shortlinks', __name__,
         template_folder=os.path.join(TEMPLATE_ROOT, 'shortlinks'))
-logging.warn(os.path.join(TEMPLATE_ROOT, 'shortlinks'))
 
 # Where on-disk is the datastore for this module?
 if 'OPENSHIFT_DATA_DIR' in os.environ:
@@ -74,6 +74,21 @@ def make_session():
 
 Session = make_session()
 
+def require_admin(f):
+    """Decorator which requires administrator logged in to succeed."""
+    @functools.wraps(f)
+    def wrapper(*args, **kwargs):
+        google = current_app.config['google']
+        if 'google_token' not in flask.session:
+            flask.session['post_login_redirect'] = request.url
+            return flask.redirect(url_for('google.login'))
+        me = google.get('userinfo')
+        # FIXME: hard-coded admin id
+        if me.data['id'] != '114005052144439249039':
+            return flask.abort(403)
+        return f(*args, **kwargs)
+    return wrapper
+
 # Web app itself
 
 @app.route('')
@@ -97,6 +112,7 @@ def list():
 
 @app.route('/new', defaults={'key': None})
 @app.route('<key>/new')
+@require_admin
 def new_GET(key):
     session = Session()
 
@@ -118,6 +134,7 @@ def new_GET(key):
             url=urljoin(request.url_root, url_for('.redirect', key=key)))
 
 @app.route('<key>/new', methods=['POST'])
+@require_admin
 def new_POST(key):
     if key is None or key == '':
         return flask.abort(400)

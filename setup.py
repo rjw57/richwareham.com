@@ -10,5 +10,6 @@ setup(name='personalsite',
     install_requires=[
         'Flask',
         'sqlalchemy',
+        'flask-oauthlib',
     ],
 )
