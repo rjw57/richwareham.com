@@ -9,5 +9,6 @@ setup(name='personalsite',
     packages=find_packages(),
     install_requires=[
         'Flask',
+        'sqlalchemy',
     ],
 )

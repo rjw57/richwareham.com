@@ -3,10 +3,172 @@ Provides a flask blueprint (shortlinks.app) which acts as a URL shortener
 implementation. Note that the blueprint does *not* start its URL routes with
 '/' and so one should use a URL prefix when registering the blueprint.
 """
-from flask import Blueprint, url_for
+import datetime
+import logging
+import os
+import random
+import tempfile
+from urllib.parse import urljoin, urlparse, urlunparse
+
+import flask
+from flask import Blueprint, url_for, jsonify, request
+from sqlalchemy import create_engine, func
+from sqlalchemy import Column, Integer, String, DateTime, Boolean, Index
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.exc import SQLAlchemyError
 
 app = Blueprint('shortlinks', __name__)
 
+# Characters from which an id will be randomly generated
+ID_CHARS = 'ABCDEFGHJKLMNOPQRSTUVWXYZ23456789'
+
+# Where on-disk is the datastore for this module?
+if 'OPENSHIFT_DATA_DIR' in os.environ:
+    SQLITE_PATH=os.path.join(os.environ['OPENSHIFT_DATA_DIR'], 'shortlinks.sqlite')
+else:
+    SQLITE_PATH=os.path.join(tempfile.gettempdir(), 'shortlinks.sqlite')
+    logging.warn('Not running on OpenShift. Using {0} for SQLite'.format(SQLITE_PATH))
+
+def make_random_key(cls):
+    return ''.join(random.sample(ID_CHARS, 5))
+
+# Data model
+Base = declarative_base()
+
+class Redirect(Base):
+    """Model an individual redirect with destination, key and created and
+    modified timestamps."""
+
+    __tablename__ = 'redirects'
+
+    id = Column(Integer, primary_key=True)
+    key = Column(String, default=make_random_key, nullable=False, unique=True, index=True)
+    destination = Column(String)
+    reserved = Column(Boolean, index=True, default=True)
+    created_at = Column(DateTime, server_default=func.now())
+    modified_at = Column(DateTime, server_default=func.now(), onupdate=func.current_timestamp())
+
+def make_session():
+    """Configure the SQLalchemy session."""
+
+    # Create a SQLalchemy engine which will be used as a persistent data store
+    engine = create_engine('sqlite:////' + SQLITE_PATH)
+
+    # Ensure we have created all of the tables
+    Base.metadata.create_all(engine)
+
+    # Define the SQLalchemy session
+    Session = sessionmaker()
+
+    # Configure the session by binding it to this engine
+    Session.configure(bind=engine)
+
+    # Return the class
+    return Session
+
+Session = make_session()
+
+# Web app itself
+
+@app.route('')
+def list():
+    session = Session()
+    redirects = []
+    for r in session.query(Redirect).filter_by(reserved=False).all():
+        redirects.append({
+            'from': r.key,
+            'to': r.destination,
+            'created': r.created_at.isoformat(),
+            'modified': r.modified_at.isoformat(),
+            'urls': {
+                'self': urljoin(request.url_root, url_for('.redirect', key=r.key)),
+                #'edit': url_for('.edit', key=r.key),
+                #'delete': url_for('.delete', key=r.key),
+            },
+        })
+
+    return jsonify(redirects=redirects)
+
+@app.route('/new', defaults={'key': None})
+@app.route('<key>/new')
+def new_GET(key):
+    session = Session()
+
+    # Do we have a reserved redirect?
+    redirect = session.query(Redirect).filter_by(key=key, reserved=True).first()
+
+    if redirect is None:
+        # Create a new reserved redirect
+        redirect = Redirect(key=key)
+        session.add(redirect)
+        session.commit()
+
+    # If the key was not specified in the URL, redirect to it
+    if key is None:
+        return flask.redirect(url_for('.new_GET', key=redirect.key))
+
+    return '''<!doctype html>
+<html>
+    <head>
+        <title>Create new link</title>
+    </head>
+    <body>
+        <form method="post" action="{action}">
+            {root}@{key} to
+            <input type="text" name="destination">
+            <input type="submit">
+        </form>
+    </body>
+</html>'''.format(
+                action=url_for('.new_POST', key=key),
+                root=flask.request.url_root,
+                key=flask.escape(key))
+
+@app.route('<key>/new', methods=['POST'])
+def new_POST(key):
+    if key is None or key == '':
+        return flask.abort(400)
+
+    destination = request.values['destination']
+    if destination is None or destination == '':
+        return flask.abort(400)
+
+    # Normalise destination URL
+    if '//' not in destination:
+        destination = '//' + destination
+    destination = urlunparse(urlparse(destination, 'http'))
+
+    session = Session()
+    redirect = session.query(Redirect).filter_by(key=key).first()
+    if redirect is None:
+        return flask.abort(404)
+    if not redirect.reserved:
+        return flask.abort(403)
+
+    # Now we know that redirect is a Redirect instance which is reserved
+    redirect.reserved = False
+    redirect.destination = destination
+    session.commit()
+
+    return '''<!doctype html>
+<html>
+    <head>
+        <title>Created new link</title>
+    </head>
+    <body>
+        <a href="{url}">{root}@{key}</a>
+        created.
+    </body>
+</html>'''.format(
+        url=urljoin(request.url_root, url_for('.redirect', key=redirect.key)),
+        root=request.url_root, key=flask.escape(redirect.key))
+
 @app.route('<key>')
 def redirect(key):
-    return 'Key: {0} at {1}'.format(key, url_for('shortlinks.redirect', key=key))
+    # Is there a non-reserved redirect at this key?
+    session = Session()
+    redirect = session.query(Redirect).filter_by(key=key, reserved=False).first()
+    if redirect is None:
+        return flask.abort(404)
+    return flask.redirect(redirect.destination)
