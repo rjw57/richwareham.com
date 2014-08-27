@@ -11,17 +11,22 @@ import tempfile
 from urllib.parse import urljoin, urlparse, urlunparse
 
 import flask
-from flask import Blueprint, url_for, jsonify, request
+from flask import Blueprint, url_for, jsonify, request, render_template
 from sqlalchemy import create_engine, func
 from sqlalchemy import Column, Integer, String, DateTime, Boolean, Index
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
 
-app = Blueprint('shortlinks', __name__)
+from .env import TEMPLATE_ROOT
 
 # Characters from which an id will be randomly generated
 ID_CHARS = 'ABCDEFGHJKLMNOPQRSTUVWXYZ23456789'
+
+# Directory holding templates
+app = Blueprint('shortlinks', __name__,
+        template_folder=os.path.join(TEMPLATE_ROOT, 'shortlinks'))
+logging.warn(os.path.join(TEMPLATE_ROOT, 'shortlinks'))
 
 # Where on-disk is the datastore for this module?
 if 'OPENSHIFT_DATA_DIR' in os.environ:
@@ -108,22 +113,9 @@ def new_GET(key):
     if key is None:
         return flask.redirect(url_for('.new_GET', key=redirect.key))
 
-    return '''<!doctype html>
-<html>
-    <head>
-        <title>Create new link</title>
-    </head>
-    <body>
-        <form method="post" action="{action}">
-            {root}@{key} to
-            <input type="text" name="destination">
-            <input type="submit">
-        </form>
-    </body>
-</html>'''.format(
-                action=url_for('.new_POST', key=key),
-                root=flask.request.url_root,
-                key=flask.escape(key))
+    return render_template('new-form.html',
+            action=url_for('.new_POST', key=key),
+            url=urljoin(request.url_root, url_for('.redirect', key=key)))
 
 @app.route('<key>/new', methods=['POST'])
 def new_POST(key):
@@ -151,18 +143,9 @@ def new_POST(key):
     redirect.destination = destination
     session.commit()
 
-    return '''<!doctype html>
-<html>
-    <head>
-        <title>Created new link</title>
-    </head>
-    <body>
-        <a href="{url}">{root}@{key}</a>
-        created.
-    </body>
-</html>'''.format(
+    return render_template('created.html',
         url=urljoin(request.url_root, url_for('.redirect', key=redirect.key)),
-        root=request.url_root, key=flask.escape(redirect.key))
+        destination=destination)
 
 @app.route('<key>')
 def redirect(key):
