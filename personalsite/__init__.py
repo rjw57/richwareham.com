@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, redirect
 
 from .shortlinks import app as shortlinks_app
 from .google import create_oauth, app as google_app
@@ -29,4 +29,4 @@ app.register_blueprint(google_app, url_prefix='/google')
 
 @app.route('/')
 def root():
-    return 'Hello, world'
+    return redirect('https://rjw57.github.io/blog')
