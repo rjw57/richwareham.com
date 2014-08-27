@@ -1,10 +1,13 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
-setup(name='YourAppName',
-      version='1.0',
-      description='OpenShift App',
-      author='Your Name',
-      author_email='example@example.com',
-      url='http://www.python.org/sigs/distutils-sig/',
-#      install_requires=['Django>=1.3'],
-     )
+setup(name='personalsite',
+    version='1.0',
+    description='Source for richwareham.com',
+    author='Rich Wareham',
+    author_email='rich@richwareham.com',
+    url='https://www.richwareham.com/',
+    packages=find_packages(),
+    install_requires=[
+        'Flask',
+    ],
+)
