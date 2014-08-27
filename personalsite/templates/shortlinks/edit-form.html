@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Edit link</title>
+    </head>
+    <body>
+        <form method="post" action="{{ action }}">
+            Change {{ url_root }}/@{{ key }} from {{ destination }} to
+            <input type="text" name="destination">
+            <input type="submit">
+        </form>
+    </body>
+</html>

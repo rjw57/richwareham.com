@@ -89,6 +89,13 @@ def require_admin(f):
         return f(*args, **kwargs)
     return wrapper
 
+def normalise_destination(destination):
+    # Normalise destination URL
+    if '//' not in destination:
+        destination = '//' + destination
+    destination = urlunparse(urlparse(destination, 'http'))
+    return destination
+
 # Web app itself
 
 @app.route('')
@@ -103,12 +110,58 @@ def list():
             'modified': r.modified_at.isoformat(),
             'urls': {
                 'self': urljoin(request.url_root, url_for('.redirect', key=r.key)),
-                #'edit': url_for('.edit', key=r.key),
-                #'delete': url_for('.delete', key=r.key),
+                'edit': urljoin(request.url_root, url_for('.edit_GET', key=r.key)),
+                'delete': urljoin(request.url_root, url_for('.delete', key=r.key)),
             },
         })
 
     return jsonify(redirects=redirects)
+
+@app.route('<key>/edit')
+@require_admin
+def edit_GET(key):
+    session = Session()
+    redirect = session.query(Redirect).filter_by(key=key).first()
+    if redirect is None:
+        return flask.abort(404)
+    return render_template('edit-form.html',
+            action=url_for('.edit_POST', key=key), key=key,
+            url_root=request.url_root, destination=redirect.destination,
+            url=urljoin(request.url_root, url_for('.redirect', key=key)))
+
+@app.route('<key>/edit', methods=['POST'])
+@require_admin
+def edit_POST(key):
+    session = Session()
+    redirect = session.query(Redirect).filter_by(key=key).first()
+    if redirect is None:
+        return flask.abort(404)
+
+    destination = request.values['destination']
+    if destination is None or destination == '':
+        return flask.abort(400)
+
+    # Normalise destination URL
+    destination = normalise_destination(destination)
+
+    redirect.destination = destination
+    session.commit()
+
+    return 'OK'
+
+@app.route('<key>/delete')
+@require_admin
+def delete(key):
+    session = Session()
+    redirect = session.query(Redirect).filter_by(key=key).first()
+    if redirect is None:
+        return flask.abort(404)
+
+    # Delete this redirect from the database and return
+    session.delete(redirect)
+    session.commit()
+
+    return 'OK'
 
 @app.route('/new', defaults={'key': None})
 @app.route('<key>/new')
@@ -144,9 +197,7 @@ def new_POST(key):
         return flask.abort(400)
 
     # Normalise destination URL
-    if '//' not in destination:
-        destination = '//' + destination
-    destination = urlunparse(urlparse(destination, 'http'))
+    destination = normalise_destination(destination)
 
     session = Session()
     redirect = session.query(Redirect).filter_by(key=key).first()
