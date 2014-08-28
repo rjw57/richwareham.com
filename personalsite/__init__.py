@@ -24,6 +24,10 @@ else:
 # Write up OAuth
 app.config['google'] = create_oauth(app)
 
+# Tell the application where to find the static site on disk
+app.config['STATIC_SOURCE_DIR'] = os.path.join(os.path.dirname(__file__), 'static')
+app.config['STATIC_SITE_DIR'] = os.path.join(app.config['STATIC_SOURCE_DIR'], '_site')
+
 # Register modules
 app.register_blueprint(shortlinks_app, url_prefix='/@')
 app.register_blueprint(google_app, url_prefix='/google')
