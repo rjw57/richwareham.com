@@ -1,14 +1,14 @@
 #!/bin/sh
-export PATH="$OPENSHIFT_REPO_DIR/node_modules/.bin:$PATH"
 
-# HACK: npm assumes (probably fairly) that it can write to $HOME
-export HOME="$OPENSHIFT_DATA_DIR/fake_home"
-mkdir -p "$HOME"
-
-# Install the various Ruby and Node-based utilities we need
 cd "$OPENSHIFT_REPO_DIR"
-bundle install --local
-npm install
 
-# Fetch the JavaScript libraries
-bower install
+### Install node packages ###
+
+# Configuration and paths
+export npm_config_cache="$OPENSHIFT_DATA_DIR/npm-cache"
+export node_modules_dir="$OPENSHIFT_DATA_DIR/node_modules"
+export PATH="$node_modules_dir/.bin:$PATH"
+
+# Link the persistent node modules dir into the repo
+ln -s "$node_modules_dir" "$OPENSHIFT_REPO_DIR/node_modules"
+npm install
