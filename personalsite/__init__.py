@@ -60,6 +60,10 @@ for endpoint in ['software','publications','research','teaching','contact','cv',
     toplevel_endpoint = app.route('/' + endpoint, defaults={'path': endpoint})(
             toplevel_endpoint)
 
+@app.route('/articles/<path:slug>')
+def article(slug):
+    return app.send_static_file(os.path.join('articles', slug, 'index.html'))
+
 @app.route('/components/platform/<path:path>')
 def components_platform(path):
     return send_from_directory(
