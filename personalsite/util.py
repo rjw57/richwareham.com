@@ -11,7 +11,7 @@ def require_admin(f):
     @functools.wraps(f)
     def wrapper(*args, **kwargs):
         google = flask.current_app.config['google']
-        if 'google_token' not in flask.session:
+        if 'google_token' not in flask.session or 'error' in google.get('userinfo').data:
             flask.session['post_login_redirect'] = flask.request.url
             return flask.redirect(flask.url_for('google.login'))
         me = google.get('userinfo')
