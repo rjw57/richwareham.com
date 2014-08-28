@@ -1,6 +1,10 @@
 #!/bin/sh
 export PATH="$OPENSHIFT_REPO_DIR/node_modules/.bin:$PATH"
 
+# HACK: npm assumes (probably fairly) that it can write to $HOME
+export HOME="$OPENSHIFT_DATA_DIR/fake_home"
+mkdir -p "$HOME"
+
 # Install the various Ruby and Node-based utilities we need
 cd "$OPENSHIFT_REPO_DIR"
 bundle install
