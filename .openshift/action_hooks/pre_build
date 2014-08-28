@@ -7,7 +7,7 @@ mkdir -p "$HOME"
 
 # Install the various Ruby and Node-based utilities we need
 cd "$OPENSHIFT_REPO_DIR"
-bundle install
+bundle install --local
 npm install
 
 # Fetch the JavaScript libraries
