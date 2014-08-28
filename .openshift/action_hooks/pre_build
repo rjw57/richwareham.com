@@ -1,8 +1,6 @@
 #!/bin/sh
 
-cd "$OPENSHIFT_DATA_DIR"
+cd "$OPENSHIFT_REPO_DIR/static"
 
-# Install required node packages for static site
-export npm_config_cache="$OPENSHIFT_DATA_DIR/npm-cache"
-npm install "$OPENSHIFT_REPO_DIR/static"
-
+# Install bundled ruby dependencies
+scl enable ruby193 'bundle install --deployment --path $OPENSHIFT_DATA_DIR/gems'
