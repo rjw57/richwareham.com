@@ -42,3 +42,7 @@ def env():
     response_body = '\n'.join(response_body)
 
     return response_body, 200, { 'Content-Type': 'text/plain' }
+
+@app.route('/health')
+def health():
+    return '1', 200, { 'Content-Type': 'text/plain' }
