@@ -3,4 +3,4 @@
 cd "$OPENSHIFT_REPO_DIR/static"
 
 # Install bundled ruby dependencies
-scl enable ruby193 'bundle install --deployment --path $OPENSHIFT_DATA_DIR/gems'
+scl enable ruby193 'bundle install --deployment --path $OPENSHIFT_DATA_DIR/bundle --binstubs $OPENSHIFT_REPO_DIR/bin'
