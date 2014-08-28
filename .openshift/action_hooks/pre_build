@@ -1,0 +1,10 @@
+#!/bin/sh
+export PATH="$OPENSHIFT_REPO_DIR/node_modules/.bin:$PATH"
+
+# Install the various Ruby and Node-based utilities we need
+cd "$OPENSHIFT_REPO_DIR"
+bundle install
+npm install
+
+# Fetch the JavaScript libraries
+bower install
