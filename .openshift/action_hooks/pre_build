@@ -1,8 +1,10 @@
 #!/bin/sh
 
+export LOCAL_BIN_DIR="$OPENSHIFT_DATA_DIR/bin"
+
 # Install bundled ruby dependencies
-export GEM_HOME="$OPENSHIFT_DATA_DIR/gems"
-export GEM_PATH="$GEM_HOME:$GEM_PATH"
+export BUNDLE_DIR="$OPENSHIFT_DATA_DIR/gems"
+
 echo "Installing static site Ruby Gems"
 cd "$OPENSHIFT_REPO_DIR/static"
-scl enable ruby193 'bundle install --deployment --path "$GEM_HOME" --binstubs "$OPENSHIFT_DATA_DIR/bin"'
+scl enable ruby193 'bundle install --deployment --path "$BUNDLE_DIR" --binstubs "$LOCAL_BIN_DIR"'
