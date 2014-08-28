@@ -18,3 +18,8 @@ echo "Installing static site node modules"
 cd "$OPENSHIFT_REPO_DIR/static"
 ln -s "$NODE_MODULES_DIR" node_modules
 scl enable nodejs010 'npm install'
+
+echo "Fetching bower dependencies"
+export BOWER_COMPONENTS_DIR="$OPENSHIFT_DATA_DIR/bower_components"
+ln -s "$BOWER_COMPONENTS_DIR" "$OPENSHIFT_REPO_DIR/static/js/bower_components"
+scl enable nodejs010 'bower install'
