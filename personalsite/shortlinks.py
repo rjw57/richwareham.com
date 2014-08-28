@@ -4,7 +4,6 @@ implementation. Note that the blueprint does *not* start its URL routes with
 '/' and so one should use a URL prefix when registering the blueprint.
 """
 import datetime
-import functools
 import logging
 import os
 import random
@@ -20,6 +19,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
 
 from .env import TEMPLATE_ROOT
+from .util import require_admin
 
 # Characters from which an id will be randomly generated
 ID_CHARS = 'ABCDEFGHJKLMNOPQRSTUVWXYZ23456789'
@@ -73,21 +73,6 @@ def make_session():
     return Session
 
 Session = make_session()
-
-def require_admin(f):
-    """Decorator which requires administrator logged in to succeed."""
-    @functools.wraps(f)
-    def wrapper(*args, **kwargs):
-        google = current_app.config['google']
-        if 'google_token' not in flask.session:
-            flask.session['post_login_redirect'] = request.url
-            return flask.redirect(url_for('google.login'))
-        me = google.get('userinfo')
-        # FIXME: hard-coded admin id
-        if me.data['id'] != '114005052144439249039':
-            return flask.abort(403)
-        return f(*args, **kwargs)
-    return wrapper
 
 def normalise_destination(destination):
     # Normalise destination URL
