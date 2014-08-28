@@ -1,0 +1,8 @@
+#!/bin/sh
+
+cd "$OPENSHIFT_DATA_DIR"
+
+# Install required node packages for static site
+export npm_config_cache="$OPENSHIFT_DATA_DIR/npm-cache"
+npm install "$OPENSHIFT_REPO_DIR/static"
+
