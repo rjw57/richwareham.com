@@ -1,9 +1,10 @@
 import os
 
-from flask import Flask, redirect
+from flask import Flask, redirect, request
 
 from .shortlinks import app as shortlinks_app
 from .google import create_oauth, app as google_app
+from .util import require_admin
 
 app = Flask(__name__)
 
@@ -30,3 +31,14 @@ app.register_blueprint(google_app, url_prefix='/google')
 @app.route('/')
 def root():
     return redirect('https://rjw57.github.io/blog')
+
+@app.route('/env')
+@require_admin
+def env():
+    response_body = [
+        '%s: %s' % (key, value)
+        for key, value in sorted(request.environ.items())
+    ]
+    response_body = '\n'.join(response_body)
+
+    return response_body, 200, { 'Content-Type': 'text/plain' }
