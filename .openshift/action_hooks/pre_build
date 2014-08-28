@@ -8,3 +8,18 @@ export BUNDLE_DIR="$OPENSHIFT_DATA_DIR/gems"
 echo "Installing static site Ruby Gems"
 cd "$OPENSHIFT_REPO_DIR/static"
 scl enable ruby193 'bundle install --deployment --path "$BUNDLE_DIR" --binstubs "$LOCAL_BIN_DIR"'
+
+export npm_config_cache="$OPENSHIFT_DATA_DIR/npm_cache"
+
+echo "Installing latest npm"
+cd "$OPENSHIFT_DATA_DIR"
+npm install npm
+
+export NODE_MODULES_DIR="$OPENSHIFT_DATA_DIR/node_modules"
+mkdir -p "$NODE_MODULES_DIR"
+
+export PATH="$NODE_MODULES_DIR/.bin:$PATH"
+echo "Installing static site node modules"
+cd "$OPENSHIFT_REPO_DIR/static"
+ln -s "$NODE_MODULES_DIR" node_modules
+npm install
