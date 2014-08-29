@@ -20,8 +20,5 @@ ln -s "$NODE_MODULES_DIR" node_modules
 scl enable nodejs010 'npm install'
 
 echo "Fetching bower dependencies"
-export BOWER_COMPONENTS_DIR="$OPENSHIFT_DATA_DIR/bower_components"
-mkdir -p "$BOWER_COMPONENTS_DIR"
-ln -s "$BOWER_COMPONENTS_DIR" "$OPENSHIFT_REPO_DIR/personalsite/static/js/bower_components"
 # Bower tries to write to directories in $HOME
 HOME=$OPENSHIFT_DATA_DIR scl enable nodejs010 'bower install'
