@@ -21,5 +21,4 @@ scl enable nodejs010 'npm install'
 
 echo "Fetching bower dependencies"
 # Bower tries to write to directories in $HOME
-HOME=$OPENSHIFT_DATA_DIR scl enable nodejs010 'bower cache clean'
 HOME=$OPENSHIFT_DATA_DIR scl enable nodejs010 'bower install'
