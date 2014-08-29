@@ -68,3 +68,8 @@ def article(slug):
 def components_platform(path):
     return send_from_directory(
         os.path.join(STATIC_SOURCE_DIR, 'js/bower_components/platform'), path)
+
+@app.route('/components/MathJax/<path:path>')
+def components_mathjax(path):
+    return send_from_directory(
+        os.path.join(STATIC_SOURCE_DIR, 'js/bower_components/MathJax'), path)
