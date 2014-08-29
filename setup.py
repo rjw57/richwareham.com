@@ -11,5 +11,6 @@ setup(name='personalsite',
         'Flask',
         'sqlalchemy',
         'flask-oauthlib',
+        'docopt',
     ],
 )
