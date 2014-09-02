@@ -69,16 +69,6 @@ for endpoint in ['software','publications','research','teaching','contact','cv',
 def article(slug):
     return app.send_static_file(os.path.join('articles', slug, 'index.html'))
 
-@app.route('/components/platform/<path:path>')
-def components_platform(path):
-    return send_from_directory(
-        os.path.join(STATIC_SOURCE_DIR, 'js/bower_components/platform'), path)
-
-@app.route('/components/MathJax/<path:path>')
-def components_mathjax(path):
-    return send_from_directory(
-        os.path.join(STATIC_SOURCE_DIR, 'js/bower_components/MathJax'), path)
-
 @app.route('/static-content', methods=['POST'])
 def update_static_content():
     if 'STATIC_SITE_SECRET' not in os.environ:
