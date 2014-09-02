@@ -1,14 +1,19 @@
+import logging
 import os
 
-from flask import Flask, redirect, request, send_from_directory
+from flask import Flask, redirect, request, send_from_directory, jsonify, abort
 
 from .shortlinks import app as shortlinks_app
 from .google import create_oauth, app as google_app
+from .update import update_static, check_hmac
 from .util import require_admin
 
 # Where to find the static site on disk
-STATIC_SOURCE_DIR = os.path.join(os.path.dirname(__file__), 'static')
-STATIC_SITE_DIR = os.path.join(STATIC_SOURCE_DIR, '_site')
+if 'OPENSHIFT_DATA_DIR' not in os.environ:
+    STATIC_SITE_DIR = '/tmp/rw-static-site'
+    logging.warn('OPENSHIFT_DATA_DIR not set, using {0} for static HTML'.format(STATIC_SITE_DIR))
+else:
+    STATIC_SITE_DIR = os.path.join(os.environ['OPENSHIFT_DATA_DIR'], 'static')
 
 app = Flask(__name__, static_url_path='', static_folder=STATIC_SITE_DIR)
 
@@ -73,3 +78,15 @@ def components_platform(path):
 def components_mathjax(path):
     return send_from_directory(
         os.path.join(STATIC_SOURCE_DIR, 'js/bower_components/MathJax'), path)
+
+@app.route('/static-content', methods=['POST'])
+def update_static_content():
+    if 'STATIC_SITE_SECRET' not in os.environ:
+        return abort(500)
+    hmac_ok = check_hmac(request.files['archive'].stream,
+            os.environ['STATIC_SITE_SECRET'].encode('utf8'),
+            request.values['hmac'])
+    if not hmac_ok:
+        return abort(403)
+    update_static(STATIC_SITE_DIR, request.files['archive'].stream)
+    return jsonify({ 'status': 200, 'message': 'OK' })
