@@ -13,7 +13,6 @@ def update_static(destdir, fileobj):
 
 def check_hmac(fileobj, secret, provided_digest):
     # Compute expected digest
-    fileobj.seek(0)
     digest = hmac.new(secret, fileobj.read(), hashlib.sha256)
 
     # Does this digest match?

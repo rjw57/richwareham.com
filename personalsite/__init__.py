@@ -71,12 +71,22 @@ def article(slug):
 
 @app.route('/static-content', methods=['POST'])
 def update_static_content():
+    # If we don't have a shared secret defined, fail.
     if 'STATIC_SITE_SECRET' not in os.environ:
         return abort(500)
-    hmac_ok = check_hmac(request.files['archive'].stream,
+
+    # Get a file object pointing to the archive sent with the request
+    archive = request.files['archive'].stream
+
+    # Check the HMAC which was provided matches the shared secret
+    archive.seek(0)
+    hmac_ok = check_hmac(archive,
             os.environ['STATIC_SITE_SECRET'].encode('utf8'),
             request.values['hmac'])
     if not hmac_ok:
         return abort(403)
-    update_static(STATIC_SITE_DIR, request.files['archive'].stream)
+
+    # Unzip the static files
+    archive.seek(0)
+    update_static(STATIC_SITE_DIR, archive)
     return jsonify({ 'status': 200, 'message': 'OK' })
