@@ -1,9 +1,0 @@
-#!/bin/sh
-
-export LOCAL_BIN_DIR="$OPENSHIFT_DATA_DIR/bin"
-export NODE_MODULES_DIR="$OPENSHIFT_DATA_DIR/node_modules"
-export PATH="$NODE_MODULES_DIR/.bin:$LOCAL_BIN_DIR:$PATH"
-
-echo "Building static HTML site"
-cd $OPENSHIFT_REPO_DIR/personalsite/static
-scl enable nodejs010 ruby193 'grunt build'
