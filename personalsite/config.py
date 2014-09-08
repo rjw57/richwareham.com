@@ -18,7 +18,7 @@ def configure(app, **kwargs):
     (Items stored in app object directly.)
 
         * secret_key: the key used for encrypting session cookies
-        * static_filder: the directory static content is served from
+        * static_folder: the directory static content is served from
 
     (Items stored in app.config.)
 
@@ -43,7 +43,7 @@ def configure(app, **kwargs):
             app.secret_key = 'development'.encode('utf8')
 
     try:
-        app.static_folder = kwargs['static_dir']
+        app.static_folder = kwargs['static_folder']
     except KeyError:
         # Where to find the static site on disk
         if 'OPENSHIFT_DATA_DIR' not in os.environ:

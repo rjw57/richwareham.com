@@ -71,5 +71,5 @@ def update_static_content():
 
     # Unzip the static files
     archive.seek(0)
-    update_static(app.config['static_dir'], archive)
+    update_static(app.static_folder, archive)
     return jsonify({ 'status': 200, 'message': 'OK' })
