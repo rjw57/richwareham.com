@@ -12,12 +12,8 @@ from urllib.parse import urljoin, urlparse, urlunparse
 
 import flask
 from flask import Blueprint, url_for, jsonify, request, render_template, current_app
-from sqlalchemy import create_engine, func
-from sqlalchemy import Column, Integer, String, DateTime, Boolean, Index
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.exc import SQLAlchemyError
 
+from .app import db
 from .env import TEMPLATE_ROOT
 from .util import require_admin
 
@@ -32,39 +28,20 @@ def make_random_key(cls):
     return ''.join(random.sample(ID_CHARS, 5))
 
 # Data model
-Base = declarative_base()
-
-class Redirect(Base):
+class Redirect(db.Model):
     """Model an individual redirect with destination, key and created and
     modified timestamps."""
 
     __tablename__ = 'redirects'
 
-    id = Column(Integer, primary_key=True)
-    key = Column(String, default=make_random_key, nullable=False, unique=True, index=True)
-    destination = Column(String)
-    reserved = Column(Boolean, index=True, default=True)
-    created_at = Column(DateTime, server_default=func.now())
-    modified_at = Column(DateTime, server_default=func.now(), onupdate=func.current_timestamp())
-
-def make_session():
-    """Configure the SQLalchemy session."""
-
-    # Create a SQLalchemy engine which will be used as a persistent data store
-    sqlite_path = current_app.config['shortlinks_datastore']
-    engine = create_engine('sqlite:////' + sqlite_path)
-
-    # Ensure we have created all of the tables
-    Base.metadata.create_all(engine)
-
-    # Define the SQLalchemy session
-    Session = sessionmaker()
-
-    # Configure the session by binding it to this engine
-    Session.configure(bind=engine)
-
-    # Return the class
-    return Session()
+    id = db.Column(db.Integer, primary_key=True)
+    key = db.Column(db.String,
+            default=make_random_key, nullable=False, unique=True, index=True)
+    destination = db.Column(db.String)
+    reserved = db.Column(db.Boolean, index=True, default=True)
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    modified_at = db.Column(db.DateTime, server_default=db.func.now(),
+            onupdate=db.func.current_timestamp())
 
 def normalise_destination(destination):
     # Normalise destination URL
@@ -77,9 +54,8 @@ def normalise_destination(destination):
 
 @app.route('')
 def list():
-    session = make_session()
     redirects = []
-    for r in session.query(Redirect).filter_by(reserved=False).all():
+    for r in db.session.query(Redirect).filter_by(reserved=False).all():
         redirects.append({
             'from': r.key,
             'to': r.destination,
@@ -97,8 +73,7 @@ def list():
 @app.route('<key>/edit')
 @require_admin
 def edit_GET(key):
-    session = make_session()
-    redirect = session.query(Redirect).filter_by(key=key).first()
+    redirect = db.session.query(Redirect).filter_by(key=key).first()
     if redirect is None:
         return flask.abort(404)
     return render_template('edit-form.html',
@@ -109,8 +84,7 @@ def edit_GET(key):
 @app.route('<key>/edit', methods=['POST'])
 @require_admin
 def edit_POST(key):
-    session = make_session()
-    redirect = session.query(Redirect).filter_by(key=key).first()
+    redirect = db.session.query(Redirect).filter_by(key=key).first()
     if redirect is None:
         return flask.abort(404)
 
@@ -122,21 +96,20 @@ def edit_POST(key):
     destination = normalise_destination(destination)
 
     redirect.destination = destination
-    session.commit()
+    db.session.commit()
 
     return 'OK'
 
 @app.route('<key>/delete')
 @require_admin
 def delete(key):
-    session = make_session()
-    redirect = session.query(Redirect).filter_by(key=key).first()
+    redirect = db.session.query(Redirect).filter_by(key=key).first()
     if redirect is None:
         return flask.abort(404)
 
     # Delete this redirect from the database and return
-    session.delete(redirect)
-    session.commit()
+    db.session.delete(redirect)
+    db.session.commit()
 
     return 'OK'
 
@@ -144,16 +117,15 @@ def delete(key):
 @app.route('<key>/new')
 @require_admin
 def new_GET(key):
-    session = make_session()
 
     # Do we have a reserved redirect?
-    redirect = session.query(Redirect).filter_by(key=key, reserved=True).first()
+    redirect = db.session.query(Redirect).filter_by(key=key, reserved=True).first()
 
     if redirect is None:
         # Create a new reserved redirect
         redirect = Redirect(key=key)
-        session.add(redirect)
-        session.commit()
+        db.session.add(redirect)
+        db.session.commit()
 
     # If the key was not specified in the URL, redirect to it
     if key is None:
@@ -176,8 +148,7 @@ def new_POST(key):
     # Normalise destination URL
     destination = normalise_destination(destination)
 
-    session = make_session()
-    redirect = session.query(Redirect).filter_by(key=key).first()
+    redirect = db.session.query(Redirect).filter_by(key=key).first()
     if redirect is None:
         return flask.abort(404)
     if not redirect.reserved:
@@ -186,7 +157,7 @@ def new_POST(key):
     # Now we know that redirect is a Redirect instance which is reserved
     redirect.reserved = False
     redirect.destination = destination
-    session.commit()
+    db.session.commit()
 
     return render_template('created.html',
         url=urljoin(request.url_root, url_for('.redirect', key=redirect.key)),
@@ -195,8 +166,7 @@ def new_POST(key):
 @app.route('<key>')
 def redirect(key):
     # Is there a non-reserved redirect at this key?
-    session = make_session()
-    redirect = session.query(Redirect).filter_by(key=key, reserved=False).first()
+    redirect = db.session.query(Redirect).filter_by(key=key, reserved=False).first()
     if redirect is None:
         return flask.abort(404)
     return flask.redirect(redirect.destination)

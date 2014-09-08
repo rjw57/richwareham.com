@@ -22,7 +22,7 @@ def configure(app, **kwargs):
 
     (Items stored in app.config.)
 
-        * shortlinks_datastore: on-disk location of short links database
+        * SQLALCHEMY_DATABASE_URI: SQLAlchemy URI to find database
     """
     ## SECRET KEY FOR SESSIONS
 
@@ -55,13 +55,11 @@ def configure(app, **kwargs):
 
     # Where on-disk is the datastore for short links
     try:
-        app.config['shortlinks_datastore'] = kwargs['shortlinks_datastore']
+        app.config['SQLALCHEMY_DATABASE_URI'] = kwargs['SQLALCHEMY_DATABASE_URI']
     except KeyError:
         if 'OPENSHIFT_DATA_DIR' in os.environ:
-            app.config['shortlinks_datastore']=os.path.join(os.environ['OPENSHIFT_DATA_DIR'],
-                    'shortlinks.sqlite')
+            sqlite_path=os.path.join(os.environ['OPENSHIFT_DATA_DIR'], 'shortlinks.sqlite')
         else:
-            app.config['shortlinks_datastore']=os.path.join(tempfile.gettempdir(),
-                    'shortlinks.sqlite')
-            logging.warn('Not running on OpenShift. Using {0} for SQLite'.format(
-                app.config['shortlinks_datastore']))
+            sqlite_path=os.path.join(tempfile.gettempdir(), 'shortlinks.sqlite')
+            logging.warn('Not running on OpenShift. Using {0} for SQLite'.format(sqlite_path))
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////' + sqlite_path

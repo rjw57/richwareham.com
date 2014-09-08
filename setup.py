@@ -13,5 +13,6 @@ setup(name='personalsite',
         'flask-oauthlib',
         'flask-script',
         'flask-migrate',
+        'flask-sqlalchemy',
     ],
 )
