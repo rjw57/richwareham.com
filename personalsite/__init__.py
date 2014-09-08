@@ -12,4 +12,6 @@ app.config['google'] = create_oauth(app)
 # Register modules
 app.register_blueprint(shortlinks_app, url_prefix='/@')
 app.register_blueprint(google_app, url_prefix='/google')
+
+gpslog_app.static_folder = os.path.join(app.static_folder, 'apps', 'gpslog')
 app.register_blueprint(gpslog_app, url_prefix='/apps/gpslog')

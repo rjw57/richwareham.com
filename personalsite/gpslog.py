@@ -60,27 +60,38 @@ def record():
 
     return 'ok'
 
-@app.route('/')
+@app.route('/log')
 @require_admin
-def index():
-    locations = list(
+def geojson():
+    features = list(
         {
-            'loc': [ x.lon, x.lat, x.alt, ],
-            'acc': x.accuracy,
-            'time': x.timestamp.isoformat(),
+            'type': 'Feature',
+            'geometry': {
+                'type': 'Point', 'coordinates': [x.lon, x.lat, x.alt],
+            },
+            'properties': {
+                'accuracy': x.accuracy,
+                'timestamp': x.timestamp.isoformat(),
+            },
         }
         for x in db.session.query(LocationRecord).order_by(LocationRecord.timestamp)
     )
 
     google = current_app.config['google']
-
-    response = {
-        'locations': locations,
-        'crs': 'EPSG:4326',
-        'prepared_for': {
-            'id': google.get('userinfo').data['id'],
-            'name': google.get('userinfo').data['name'],
+    collection = {
+        'type': 'FeatureCollection',
+        'features': features,
+        'properties': {
+            'preparedFor': {
+                'id': google.get('userinfo').data['id'],
+                'name': google.get('userinfo').data['name'],
+            },
         },
     }
 
-    return jsonify(response)
+    return jsonify(collection)
+
+@app.route('/')
+@require_admin
+def index():
+    return app.send_static_file('index.html')
