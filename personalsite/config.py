@@ -34,7 +34,7 @@ def configure(app, **kwargs):
         if 'OPENSHIFT_DATA_DIR' in os.environ:
             secret_key_path = os.path.join(os.environ['OPENSHIFT_DATA_DIR'], 'session.key')
             if os.path.isfile(secret_key_path):
-                secret_key = open(secret_key_path, 'rb').read()
+                app.secret_key = open(secret_key_path, 'rb').read()
             else:
                 import ssl
                 app.secret_key = ssl.RAND_bytes(64)
