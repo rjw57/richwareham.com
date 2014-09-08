@@ -35,6 +35,16 @@ def env():
 def health():
     return '1', 200, { 'Content-Type': 'text/plain' }
 
+# Dump database
+@app.route('/dbdump')
+@require_admin
+def dbdump():
+    sqlalchemy_db_uri = app.config['SQLALCHEMY_DATABASE_URI']
+    if not sqlalchemy_db_uri.startswith('sqlite:////'):
+        return abort(404)
+    with open(sqlalchemy_db_uri[11:], 'rb') as f:
+        return f.read(), 200, { 'Content-Type': 'application/octet-stream' }
+
 # Static site
 
 @app.route('/')
