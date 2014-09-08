@@ -33,7 +33,6 @@ class Redirect(db.Model):
     modified timestamps."""
 
     __tablename__ = 'redirects'
-    __bind_key__ = 'shortlinks'
 
     id = db.Column(db.Integer, primary_key=True)
     key = db.Column(db.String,
