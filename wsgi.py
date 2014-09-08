@@ -3,6 +3,9 @@ import os
 
 from personalsite import app as application
 
+# Uncomment to get tracebck in logs on OpenShift
+# application.config['PROPAGATE_EXCEPTIONS'] = True
+
 #
 # Below for testing only
 #
