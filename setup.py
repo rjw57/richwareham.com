@@ -14,5 +14,6 @@ setup(name='personalsite',
         'flask-script',
         'flask-migrate',
         'flask-sqlalchemy',
+        'python-dateutil',
     ],
 )
