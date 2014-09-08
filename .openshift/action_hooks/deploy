@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Deploy action hook.
+
+# Run a database migration if required.
+if [ -z "$OPENSHIFT_REPO_DIR" ]; then
+	echo "OPENSHIFT_REPO_DIR environment variable is not defined" >&2
+else
+	echo "Running database migrations."
+	pushd "$OPENSHIFT_REPO_DIR"
+	python -m personalsite db upgrade
+	popd
+fi
