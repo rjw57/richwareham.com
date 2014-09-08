@@ -3,32 +3,14 @@ import os
 
 from flask import Flask, redirect, request, send_from_directory, jsonify, abort
 
-from .shortlinks import app as shortlinks_app
+from .config import configure
 from .google import create_oauth, app as google_app
+from .shortlinks import app as shortlinks_app
 from .update import update_static, check_hmac
 from .util import require_admin
 
-# Where to find the static site on disk
-if 'OPENSHIFT_DATA_DIR' not in os.environ:
-    STATIC_SITE_DIR = '/tmp/rw-static-site'
-    logging.warn('OPENSHIFT_DATA_DIR not set, using {0} for static HTML'.format(STATIC_SITE_DIR))
-else:
-    STATIC_SITE_DIR = os.path.join(os.environ['OPENSHIFT_DATA_DIR'], 'static')
-
-app = Flask(__name__, static_url_path='', static_folder=STATIC_SITE_DIR)
-
-# If running on OpenShift be a little more sensible about generating secret
-# data.
-if 'OPENSHIFT_DATA_DIR' in os.environ:
-    secret_key_path = os.path.join(os.environ['OPENSHIFT_DATA_DIR'], 'session.key')
-    if os.path.isfile(secret_key_path):
-        app.secret_key = open(secret_key_path, 'rb').read()
-    else:
-        import ssl
-        app.secret_key = ssl.RAND_bytes(64)
-        open(secret_key_path, 'wb').write(app.secret_key)
-else:
-    app.secret_key = 'development'.encode('utf8')
+app = Flask(__name__, static_url_path='')
+configure(app)
 
 # Write up OAuth
 app.config['google'] = create_oauth(app)
@@ -88,5 +70,5 @@ def update_static_content():
 
     # Unzip the static files
     archive.seek(0)
-    update_static(STATIC_SITE_DIR, archive)
+    update_static(app.config['static_dir'], archive)
     return jsonify({ 'status': 200, 'message': 'OK' })

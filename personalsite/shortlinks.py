@@ -28,13 +28,6 @@ ID_CHARS = 'ABCDEFGHJKLMNOPQRSTUVWXYZ23456789'
 app = Blueprint('shortlinks', __name__,
         template_folder=os.path.join(TEMPLATE_ROOT, 'shortlinks'))
 
-# Where on-disk is the datastore for this module?
-if 'OPENSHIFT_DATA_DIR' in os.environ:
-    SQLITE_PATH=os.path.join(os.environ['OPENSHIFT_DATA_DIR'], 'shortlinks.sqlite')
-else:
-    SQLITE_PATH=os.path.join(tempfile.gettempdir(), 'shortlinks.sqlite')
-    logging.warn('Not running on OpenShift. Using {0} for SQLite'.format(SQLITE_PATH))
-
 def make_random_key(cls):
     return ''.join(random.sample(ID_CHARS, 5))
 
@@ -58,7 +51,8 @@ def make_session():
     """Configure the SQLalchemy session."""
 
     # Create a SQLalchemy engine which will be used as a persistent data store
-    engine = create_engine('sqlite:////' + SQLITE_PATH)
+    sqlite_path = current_app.config['shortlinks_datastore']
+    engine = create_engine('sqlite:////' + sqlite_path)
 
     # Ensure we have created all of the tables
     Base.metadata.create_all(engine)
@@ -70,9 +64,7 @@ def make_session():
     Session.configure(bind=engine)
 
     # Return the class
-    return Session
-
-Session = make_session()
+    return Session()
 
 def normalise_destination(destination):
     # Normalise destination URL
@@ -85,7 +77,7 @@ def normalise_destination(destination):
 
 @app.route('')
 def list():
-    session = Session()
+    session = make_session()
     redirects = []
     for r in session.query(Redirect).filter_by(reserved=False).all():
         redirects.append({
@@ -105,7 +97,7 @@ def list():
 @app.route('<key>/edit')
 @require_admin
 def edit_GET(key):
-    session = Session()
+    session = make_session()
     redirect = session.query(Redirect).filter_by(key=key).first()
     if redirect is None:
         return flask.abort(404)
@@ -117,7 +109,7 @@ def edit_GET(key):
 @app.route('<key>/edit', methods=['POST'])
 @require_admin
 def edit_POST(key):
-    session = Session()
+    session = make_session()
     redirect = session.query(Redirect).filter_by(key=key).first()
     if redirect is None:
         return flask.abort(404)
@@ -137,7 +129,7 @@ def edit_POST(key):
 @app.route('<key>/delete')
 @require_admin
 def delete(key):
-    session = Session()
+    session = make_session()
     redirect = session.query(Redirect).filter_by(key=key).first()
     if redirect is None:
         return flask.abort(404)
@@ -152,7 +144,7 @@ def delete(key):
 @app.route('<key>/new')
 @require_admin
 def new_GET(key):
-    session = Session()
+    session = make_session()
 
     # Do we have a reserved redirect?
     redirect = session.query(Redirect).filter_by(key=key, reserved=True).first()
@@ -184,7 +176,7 @@ def new_POST(key):
     # Normalise destination URL
     destination = normalise_destination(destination)
 
-    session = Session()
+    session = make_session()
     redirect = session.query(Redirect).filter_by(key=key).first()
     if redirect is None:
         return flask.abort(404)
@@ -203,7 +195,7 @@ def new_POST(key):
 @app.route('<key>')
 def redirect(key):
     # Is there a non-reserved redirect at this key?
-    session = Session()
+    session = make_session()
     redirect = session.query(Redirect).filter_by(key=key, reserved=False).first()
     if redirect is None:
         return flask.abort(404)
