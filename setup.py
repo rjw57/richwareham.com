@@ -15,5 +15,6 @@ setup(name='personalsite',
         'flask-migrate',
         'flask-sqlalchemy',
         'python-dateutil',
+        'Flask-SSLify',
     ],
 )
