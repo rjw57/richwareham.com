@@ -19,8 +19,8 @@ from .util import require_admin
 app = Flask(__name__, static_url_path='')
 configure(app)
 
-# Default timeout is 31 days (~1 month)
-SSLify(app, age=60*60*24*31)
+# Default timeout is 180 days (~ half a year)
+SSLify(app, age=60*60*24*180)
 
 db = SQLAlchemy(app)
 
