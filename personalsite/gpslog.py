@@ -1,7 +1,10 @@
 """Provide a URL endpoint to log GPS data to.
 
 """
-from flask import Blueprint, request, jsonify, current_app
+from calendar import timegm
+import json
+
+from flask import Blueprint, request, jsonify, current_app, render_template
 from dateutil.parser import parse as date_parse
 from dateutil.tz import tzutc
 
@@ -60,38 +63,34 @@ def record():
 
     return 'ok'
 
-@app.route('/log')
-@require_admin
-def geojson():
-    features = list(
-        {
-            'type': 'Feature',
-            'geometry': {
-                'type': 'Point', 'coordinates': [x.lon, x.lat, x.alt],
-            },
-            'properties': {
-                'accuracy': x.accuracy,
-                'timestamp': x.timestamp.isoformat(),
-            },
-        }
-        for x in db.session.query(LocationRecord).order_by(LocationRecord.timestamp)
-    )
+def _log_as_linestring():
+    features = []
 
-    google = current_app.config['google']
+    line_string_coords = []
+    line_string_props = { 'accuracies': [], 'timestamps': [] }
+    for x in db.session.query(LocationRecord).order_by(LocationRecord.timestamp):
+        line_string_coords.append((x.lon, x.lat, x.alt))
+        line_string_props['accuracies'].append(x.accuracy)
+        line_string_props['timestamps'].append(timegm(x.timestamp.utctimetuple()))
+    features.append({
+        'type': 'Feature',
+        'geometry': { 'type': 'LineString', 'coordinates': line_string_coords },
+        'properties': line_string_props,
+    })
+
     collection = {
         'type': 'FeatureCollection',
         'features': features,
-        'properties': {
-            'preparedFor': {
-                'id': google.get('userinfo').data['id'],
-                'name': google.get('userinfo').data['name'],
-            },
-        },
     }
 
-    return jsonify(collection)
+    return collection
+
+@app.route('/log')
+@require_admin
+def geojson():
+    return jsonify(_log_as_linestring())
 
 @app.route('/')
 @require_admin
 def index():
-    return app.send_static_file('index.html')
+    return render_template('index.html', geojsonlog=_log_as_linestring())
