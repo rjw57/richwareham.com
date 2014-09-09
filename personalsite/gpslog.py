@@ -30,9 +30,9 @@ class LocationRecord(db.Model):
     remote_addr = db.Column(db.String)
     forwarded_for = db.Column(db.String)
     user_agent = db.Column(db.String)
-    client_id = db.Column(db.String)
+    client_id = db.Column(db.String, index=True)
 
-    timestamp = db.Column(db.DateTime)
+    timestamp = db.Column(db.DateTime, index=True)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
 
 @app.route('/record')
