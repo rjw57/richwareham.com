@@ -62,6 +62,10 @@ for endpoint in ['software','publications','research','teaching','contact','cv',
     toplevel_endpoint = app.route('/' + endpoint, defaults={'path': endpoint})(toplevel_endpoint)
     toplevel_endpoint = app.route('/' + endpoint + '/', defaults={'path': endpoint})(toplevel_endpoint)
 
+@app.route('/page<int:n>/')
+def page_idx(n):
+    return app.send_static_file(os.path.join('page{0}'.format(n), 'index.html'))
+
 @app.route('/articles/<path:slug>')
 def article(slug):
     return app.send_static_file(os.path.join('articles', slug, 'index.html'))
