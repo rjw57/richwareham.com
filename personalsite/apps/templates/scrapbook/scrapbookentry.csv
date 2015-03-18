@@ -1,0 +1,18 @@
+West Cambridge Scrapbook Template,
+General,Input data
+Name of representative:,"{{ reprname }}"
+Constituency or Division (eg 'Div C'),"Div {{ form.division }}"
+Date of submission:,{{ date }}
+Details of Scrapbook submission,
+Title of submission,"{{ form.title }}"
+"Classification (Office, Teaching Room, Research Lab, Teaching Lab, workshops, other)","{{ form.classification }}"
+This is a good example of what we want because:,"{{ form.goodbecause }}"
+This is an example of what we DO NOT want because:,"{{ form.badbecause }}"
+Other keywords:,"{{ form.keywords }}"
+File 1 - Enter the file name of the image or other document here.  (eg Image.jpg or Example.pdf)  The file with this name should be provided separately from this Excel file.,{{ image1fn }}
+Caption for image or document ,"{{ form.image1caption }}"
+"File 2 (if you have a second image  or other document for this same submmission, enter its file name here)",{{ image2fn }}
+Caption for image2 or document,"{{ form.image2caption }}"
+Source of image (text),"{{ imagesrc }}"
+Source of image (hyperlink),"{{ image1url }}"
+Notes (optional): ,"{{ form.notes }}"

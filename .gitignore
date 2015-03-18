@@ -3,3 +3,5 @@
 __pycache__
 node_modules
 static/js/bower_components
+personalsite/bower_components
+personalsite/node_modules

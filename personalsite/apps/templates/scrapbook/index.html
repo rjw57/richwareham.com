@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block page %}
+<div class="container">
+
+<div class="page-header">
+    <h1>Move West Scrapbook</h1>
+</div>
+
+<p>The Move West Operations Committee is now collecting information for the
+design development stage of the new buildings at West Cambridge.  All staff,
+post-docs, students are encouraged to submit images/photos/other documents
+describing examples of features they would like to see in the new buildings.</p>
+
+<p>If you are interested and have views on the building features here is what
+you need to do:</p>
+
+<ol>
+    <li>Fill out the form below and hit "submit".</li>
+    <li>Email the zip file to your divisional representative.</li>
+</ol>
+
+<form method="post" action="{{ url_for('scrapbook.submit') }}"
+    enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="division">Division</label>
+        <select class="form-control" id="division" name="division"
+            aria-describedby="division-help">
+            <option>F</option>
+        </select>
+        <span id="division-help" class="help-block">Only division whose
+            contacts are known are included here.</span>
+    </div>
+    <div class="form-group">
+        <label for="title">Title of submission</label>
+        <input class="form-control" id="title" name="title" placeholder="Cool lab space">
+    </div>
+    <div class="form-group">
+        <label for="classification">Classification</label>
+        <select class="form-control" id="classification" name="classification">
+            <option>Office</option>
+            <option>Teaching Room</option>
+            <option>Research Lab</option>
+            <option>Teaching Lab</option>
+            <option>Workshops</option>
+            <option>Other</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="goodbecause">This is a good example of what we want
+            because</label>
+        <input class="form-control" id="goodbecause" name="goodbecause"
+            placeholder="I like big spaces and I cannot lie">
+    </div>
+    <div class="form-group">
+        <label for="badbecause">This is a good example of what we
+            do <em>not</em> want because</label>
+        <input class="form-control" id="badbecause" name="badbecause"
+            placeholder="The yard has insufficient milkshake">
+    </div>
+    <div class="form-group">
+        <label for="keywords">Keywords</label>
+        <input class="form-control" id="keywords" name="keywords"
+            placeholder="scrub &quot;getting no love&quot;"
+            aria-describedby="keywords-help">
+        <span id="keywords-help" class="help-block">Separate keywords by
+            space. Use double-quotes (&quot;) for multi-word keywords.
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="image1">Associated image #1</label>
+                <input class="form-control" id="image1" name="image1" type="file">
+            </div>
+            <div class="form-group">
+                <label for="imagecaption">Image caption</label>
+                <input class="form-control" id="image1caption" name="image1caption"
+                placeholder="A yard overflowing with milk">
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="image2">Associated image #2</label>
+                <input class="form-control" id="image2" name="image2" type="file">
+            </div>
+            <div class="form-group">
+                <label for="imagecaption">Image caption</label>
+                <input class="form-control" id="image2caption" name="image2caption"
+                placeholder="A milkshake">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="image1src">Source</label>
+                <input class="form-control" id="imagesrc" name="imagesrc"
+                placeholder="Personal covert photography of yards">
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="image1url">Website image taken from</label>
+                <input class="form-control" id="imageurl" name="imageurl"
+                placeholder="http://yards.example.com">
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="notes">Any other notes</label>
+        <textarea rows="3" class="form-control" id="notes" name="notes"
+        placeholder="We should probably also consider the dairy intolerant">
+            </textarea>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+</div>
+
+{% endblock %}

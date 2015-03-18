@@ -11,6 +11,7 @@ import os
 from flask import Flask, redirect, request, send_from_directory, jsonify, abort
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask_sslify import SSLify
+from flask_bower import Bower
 
 from .config import configure
 from .update import update_static, check_hmac
@@ -20,7 +21,9 @@ app = Flask(__name__, static_url_path='')
 configure(app)
 
 # Default timeout is 180 days (~ half a year)
-SSLify(app, age=60*60*24*180)
+# SSLify(app, age=60*60*24*180)
+
+Bower(app)
 
 db = SQLAlchemy(app)
 

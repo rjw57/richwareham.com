@@ -1,0 +1,19 @@
+{
+  "name": "richwareham.com",
+  "version": "0.0.0",
+  "authors": [
+    "Rich Wareham <rjw57@cam.ac.uk>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.4"
+  }
+}

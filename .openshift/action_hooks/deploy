@@ -11,3 +11,10 @@ else
 	python -m personalsite db upgrade
 	popd
 fi
+
+# fetch dependencies
+if [ -x "$OPENSHIFT_REPO_DIR/personalsite/fetch-deps.sh" ]; then
+	pushd "$OPENSHIFT_REPO_DIR/personalsite"
+	./fetch-deps.sh
+	popd
+fi
