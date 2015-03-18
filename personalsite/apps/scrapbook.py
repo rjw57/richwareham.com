@@ -18,7 +18,7 @@ def random_id():
 def index():
     return render_template('index.html')
 
-@scrapbook.route('/submit', methods=['POST'])
+@scrapbook.route('/submit', methods=['GET', 'POST'])
 def submit():
     submission_id = random_id()
     div = request.form['division']
