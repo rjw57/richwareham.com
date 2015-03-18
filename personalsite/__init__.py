@@ -17,6 +17,6 @@ app.register_blueprint(google_app, url_prefix='/google')
 
 app.register_blueprint(scrapbook, url_prefix='/apps/scrapbook/')
 
-gpslog_app.static_folder = os.path.join(app.static_folder, 'apps', 'gpslog')
-gpslog_app.template_folder = os.path.join(app.static_folder, 'apps', 'gpslog')
-app.register_blueprint(gpslog_app, url_prefix='/apps/gpslog/')
+#gpslog_app.static_folder = os.path.join(app.static_folder, 'apps', 'gpslog')
+#gpslog_app.template_folder = os.path.join(app.static_folder, 'apps', 'gpslog')
+#app.register_blueprint(gpslog_app, url_prefix='/apps/gpslog/')
