@@ -6,19 +6,33 @@
     <h1>Move West Scrapbook</h1>
 </div>
 
-<p>The Move West Operations Committee is now collecting information for the
-design development stage of the new buildings at West Cambridge.  All staff,
-post-docs, students are encouraged to submit images/photos/other documents
-describing examples of features they would like to see in the new buildings.</p>
+<div class="row">
+    <div class="col-md-8">
+        <h2>Introduction</h2>
+        <p>The Move West Operations Committee is now collecting information for the
+        design development stage of the new buildings at West Cambridge.  All staff,
+        post-docs, students are encouraged to submit images/photos/other documents
+        describing examples of features they would like to see in the new buildings.</p>
 
-<p>If you are interested and have views on the building features here is what
-you need to do:</p>
+        <p>If you are interested and have views on the building features here is what
+        you need to do:</p>
 
-<ol>
-    <li>Fill out the form below and hit "submit".</li>
-    <li>Email the zip file to your divisional representative.</li>
-</ol>
+        <ol>
+            <li>Fill out the form below and hit "submit".</li>
+            <li>Email the zip file to your divisional representative.</li>
+        </ol>
+    </div>
+    <div class="col-md-4">
+        <h2>What's new</h2>
+        <p>Here's what's changed since the first version went live:</p>
+        <ul>
+            <li>Putting quotation-marks (&quot;) in text fields no-longer gives
+            broken CSV files.</li>
+        </ul>
+    </div>
+</div>
 
+<h2>Create a new entry</h2>
 <form method="post" action="{{ url_for('scrapbook.submit') }}"
     enctype="multipart/form-data">
     <div class="form-group">
@@ -118,8 +132,8 @@ you need to do:</p>
 <h2>Hey! I found a bug</h2>
 
 Please open an issue on the <a
-	href="https://github.com/rjw57/richwareham.com/blob/master/personalsite/apps/scrapbook.py">GitHub
-	repository</a> to report a bug. Pull-requests are welcome.
+        href="https://github.com/rjw57/richwareham.com/blob/master/personalsite/apps/scrapbook.py">GitHub
+        repository</a> to report a bug. Pull-requests are welcome.
 
 </div>
 {% endblock %}
